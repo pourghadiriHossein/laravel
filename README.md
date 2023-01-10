@@ -1,2 +1,2 @@
 # laravel
-<h1>Welcome To Laravel Term</h1>
+<h1>Download Website Template For Laravel Project</h1>
