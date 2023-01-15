@@ -1,7 +1,7 @@
 # Create Public Side
 
 <ol>
-    <li>Create public folder
+    <li>Create public and public-side-files folder
         <ul>
             <br><li>In public folder</li>
             <br><li>In resources/views folder</li>
