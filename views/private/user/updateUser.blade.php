@@ -16,27 +16,27 @@
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نام و نام خانوادگی</label>
                                         <div class="col-lg-10">
-                                            <input placeholder="" type="text" name="name" class="form-control">
+                                            <input type="text" name="name" class="form-control" placeholder="نام و نام خانوادگی خود را وارد کنید">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">شماره تماس</label>
                                         <div class="col-lg-10">
-                                            <input placeholder="" type="text" name="phone" class="form-control">
+                                            <input type="text" name="phone" class="form-control" placeholder="شماره تماس خود را وارد کنید">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">پست الکترونیک</label>
                                         <div class="col-lg-10">
-                                            <input placeholder="" type="text" name="email" class="form-control">
+                                            <input type="text" name="email" class="form-control" placeholder="پست الکترونیک خود را وارد کنید">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">رمز عبور</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="password" class="form-control" placeholder="در صورت نیاز به تغییر رمز عبور، رمز عبور جدید را وادر کنید">
+                                            <input type="text" name="password" class="form-control" placeholder="رمز عبور خود را وارد کنید">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@
                                         <label class="col-lg-2 control-label">وضعیت کاربر</label>
                                         <div class="col-lg-10">
                                             <select name="status" class="form-control" style="height: 40px">
-                                                <option value="0">غیر فعال</option>
+                                                <option value="0" selected>غیر فعال</option>
                                                 <option value="1">فعال</option>
                                             </select>
                                         </div>
