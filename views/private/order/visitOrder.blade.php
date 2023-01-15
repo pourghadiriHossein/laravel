@@ -118,7 +118,7 @@
                                                                 <tr>
                                                                     <td>1</td>
                                                                     <td>
-                                                                        <img src="{{ asset('public') }}/IMAGE/product/hoodie1-1-700x893.jpg"
+                                                                        <img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg"
                                                                             height="50" width="40">
                                                                     </td>
                                                                     <td>هودی</td>
@@ -180,7 +180,7 @@
                                                                 <tr>
                                                                     <td>1</td>
                                                                     <td>
-                                                                        <img src="{{ asset('public') }}/IMAGE/product/hoodie1-1-700x893.jpg"
+                                                                        <img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg"
                                                                             height="50" width="40">
                                                                     </td>
                                                                     <td>هودی</td>
