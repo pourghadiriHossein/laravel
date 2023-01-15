@@ -28,10 +28,9 @@
                                         <label class="col-lg-2 control-label">کد تخفیف</label>
                                         <div class="col-lg-10">
                                             <select name="discount_id" class="form-control" style="height: 40px">
-                                                <option value="">دسته اصلی</option>
-                                                <option value="">دسته اصلی</option>
-                                                <option value="">دسته اصلی</option>
-                                                <option value="">دسته اصلی</option>
+                                                <option value="">بدون تخفیف</option>
+                                                <option value="">بدون تخفیف</option>
+                                                <option value="">بدون تخفیف</option>
                                             </select>
                                         </div>
                                     </div>
