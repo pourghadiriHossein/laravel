@@ -16,25 +16,25 @@
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">عنوان تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input value="" type="text" name="label" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="label" class="form-control" placeholder="عنوان تخفیف">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">مبلغ تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input value="" type="text" name="price" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="price" class="form-control" placeholder="مبلغ تخفیف">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">درصد تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input value="" type="text" name="percent" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="percent" class="form-control" placeholder="درصد تخفیف">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">توکن تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input value="" type="text" name="token" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="gift_code" class="form-control" placeholder="توکن تخفیف">
                                         </div>
                                     </div>
 
@@ -42,7 +42,7 @@
                                         <label class="col-lg-2 control-label">وضعیت دسته</label>
                                         <div class="col-lg-10">
                                             <select name="status" class="form-control" style="height: 40px">
-                                                <option value="0">غیر فعال</option>
+                                                <option value="0" selected>غیر فعال</option>
                                                 <option value="1">فعال</option>
                                             </select>
                                         </div>
