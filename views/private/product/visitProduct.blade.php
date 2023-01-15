@@ -92,7 +92,7 @@
                                     <td>
                                         <a data-toggle="modal" href="#myModal1">
                                             <img height="100" width="80" alt="hoodie1"
-                                                src="{{ asset('public') }}/IMAGE/product/hoodie1-1-700x893.jpg">
+                                                src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg">
                                         </a>
                                         <div class="modal fade" id="myModal1" tabindex="-1"
                                             role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -106,7 +106,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <img height="500" width="500" alt="hoodie1"
-                                                            src="{{ asset('public') }}/IMAGE/product/hoodie1-1-700x893.jpg">
+                                                            src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button data-dismiss="modal" class="btn btn-warning"
@@ -138,7 +138,7 @@
                                     <td>
                                         <a data-toggle="modal" href="#myModal2">
                                             <img height="100" width="80" alt="hoodie1"
-                                                src="{{ asset('public') }}/IMAGE/product/hoodie1-1-700x893.jpg">
+                                                src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg">
                                         </a>
                                         <div class="modal fade" id="myModal2" tabindex="-1"
                                             role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -152,7 +152,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <img height="500" width="500" alt="hoodie1"
-                                                            src="{{ asset('public') }}/IMAGE/product/hoodie1-1-700x893.jpg">
+                                                            src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button data-dismiss="modal" class="btn btn-warning"
