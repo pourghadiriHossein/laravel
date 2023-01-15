@@ -29,7 +29,7 @@
                                         <label class="col-lg-2 control-label">سطوح دسترسی</label>
                                         <div class="col-lg-10">
                                             <label class="access_lvl">
-                                                <input type="checkbox" name="permissions[]" value="{{$permission->id}}">دسترسی آزاد
+                                                <input type="checkbox" name="permissions[]" value="">دسترسی آزاد
                                             </label>
                                             <br/>
                                         </div>
