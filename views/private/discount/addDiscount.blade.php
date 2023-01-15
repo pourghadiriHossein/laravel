@@ -22,19 +22,19 @@
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">مبلغ تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="price" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="price" class="form-control" placeholder="مبلغ تخفیف">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">درصد تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="percent" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="percent" class="form-control" placeholder="درصد تخفیف">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">توکن تخفیف</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="gift_code" class="form-control" placeholder="عنوان تخفیف">
+                                            <input type="text" name="gift_code" class="form-control" placeholder="توکن تخفیف">
                                         </div>
                                     </div>
 
