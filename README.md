@@ -7,7 +7,7 @@
             <br><li>In resources/views folder</li>
         </ul>
     </li><br>
-    <li>Copy and Paste to public/public
+    <li>Copy and Paste to public/public-side-files
         <ul>
             <br><li>css folder</li>
             <br><li>font folder</li>
