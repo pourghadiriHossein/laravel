@@ -147,7 +147,6 @@
             </li>
         </ul>
     </li><br>
-    
     <li>How to Create Migration and Model in Terminal
         <ul>
             <br><li>Command For Create Migration: php artisan make:migration create_{Your Migration Name In Plural Form}_table</li>
@@ -155,7 +154,6 @@
             <br><li>Command For Create Model and Migration in Same Time: php artisan make:model -m {Your Migration Name In Singular and capitalize Form}</li>
         </ul>
     </li><br>
-    
     <li>Update User Migration</li><br>
     <li><a href="https://spatie.be/docs/laravel-permission/v5/installation-laravel">Install Spatie Laravel Permission</a>
         <ul>
