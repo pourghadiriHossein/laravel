@@ -3,13 +3,13 @@
 <ol>
 <br><li>Create UserSeeder
 <pre>
+
     Role::create([
         'name' => 'admin', 'guard_name' => 'web'
     ]);
     Role::create([
         'name' => 'user', 'guard_name' => 'web'
     ]);
-
     $user = User::create([
         'name' => 'حسین پورقدیری',
         'phone' => '09398932183',
@@ -22,6 +22,7 @@
 </li>
 <br><li>Create PermissionSeeder
 <pre>
+
     $permission = [
         ['name' => 'free_access', 'guard_name' => 'web'],
         ['name' => 'limit_access', 'guard_name' => 'web']
@@ -31,6 +32,7 @@
 </li>
 <br><li>Create DiscountSeeder
 <pre>
+
     $discounts = [
         [
             'label' => 'تخفیف نقدی',
@@ -59,6 +61,7 @@
 </li>
 <br><li>Create CategorySeeder
 <pre>
+
     $categories = [
         ['id' => 1,'parent_id' => null,'label' => 'مردانه'],
         ['id' => 2,'parent_id' => null,'label' => 'زنانه'],
@@ -66,24 +69,24 @@
         ['id' => 4,'parent_id' => 2,'label' => 'لباس'],
         ['id' => 5,'parent_id' => 2,'label' => 'کیف'],
     ];
-
     Category::insert($categories);
 </pre>
 </li>
 <br><li>Create TagSeeder
 <pre>
+
     $productTags = [
         ['label' => 'مجلسی'],
         ['label' => 'اسپرت'],
         ['label' => 'راحتی'],
         ['label' => 'مقاوم'],
     ];
-
     Tag::insert($productTags);
 </pre>
 </li>
 <br><li>Create ProductSeeder
 <pre>
+
     $products = [
         //MEN
         [
@@ -381,6 +384,7 @@
 </li>
 <br><li>Create CommentSeeder
 <pre>
+
     $comments = [
         [
             'user_id' => 1,
@@ -463,6 +467,7 @@
 </li>
 <br><li>Create RegionSeeder
 <pre>
+
     $regions = [
         ['id' =>1, 'label' => 'آذربايجان شرقى'],
         ['id' =>2, 'label' => 'آذربایجان غربى'],
@@ -497,7 +502,6 @@
         ['id' =>31, 'label' => 'يزد']
     ];
     Region::insert($regions);
-
     $cities = [
         ['id' =>1, 'label' => 'اهر', 'region_id' => 1],
         ['id' =>2, 'label' => 'عجبشير', 'region_id' => 1],
@@ -938,6 +942,7 @@
 </li>
 <br><li>Create AddressSeeder
 <pre>
+
     $addresses = [
         [
             'city_id' => 339,
@@ -960,6 +965,7 @@
 </li>
 <br><li>Create ContactSeeder
 <pre>
+
     $contacts = [
         [
             'user_id' => null,
