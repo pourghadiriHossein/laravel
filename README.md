@@ -1,2 +1,1 @@
-# laravel
-<h1>Welcome To Laravel Term</h1>
+# Download Farsi Laravel Validation Pack
