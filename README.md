@@ -1,4 +1,4 @@
-# Write the Relations Between Bodels
+# Write the Relations Between Bodels In Laravel
 
 <ul>
 <br><li>For One To Many Relation
