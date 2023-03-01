@@ -1,4 +1,4 @@
-# Create Public Side
+# Create Public Side In Laravel
 
 <ol>
     <li>Create public-side-files and public folder
