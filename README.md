@@ -1,30 +1,28 @@
 # Write the Relations Between Bodels In Laravel
 
-<ul>
-<br><li>For One To Many Relation
-<pre>
-    public function {Your Function Name In Singular Form}()
-    {
-        return $this->belongsTo({Your Destination Model Name}::class);
-    }
-</pre>
-</li>
-<br><li>For Many To One Relation
-<pre>
-    public function {Your Function Name In Plural Form}()
-    {
-        return $this->hasMany({Your Destination Model Name}::class);
-    }
-</pre>
-</li>
-<br><li>For Many To Many Relation
-<pre>
-    public function {Your Function Name In Plural Form}()
-    {
-        return $this->belongsToMany({Your Destination Model Name}::class);
-    }
-</pre></li>
-</ul>
+## For One To Many Relation
+```bash
+public function {Your Function Name In Singular Form}()
+{
+    return $this->belongsTo({Your Destination Model Name}::class);
+}
+```
+
+## For Many To One Relation
+```bash
+public function {Your Function Name In Plural Form}()
+{
+    return $this->hasMany({Your Destination Model Name}::class);
+}
+```
+
+## For Many To Many Relation
+```bash
+public function {Your Function Name In Plural Form}()
+{
+    return $this->belongsToMany({Your Destination Model Name}::class);
+}
+```
 
 <ol>
     <li>Check users Migration For Find Relations Between User and Another Models</li><br>
