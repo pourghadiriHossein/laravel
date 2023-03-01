@@ -106,7 +106,7 @@ public function rules()
 ```
 
 ## Create Update User Action in UserAction
-```
+```bash
 public static function updateUser($request, $user)
 {
     $uniqueParameter = ['phone' => 0, 'email' => 0];
@@ -142,7 +142,7 @@ public static function updateUser($request, $user)
 ```
 
 ## Update postUpdateUser in PrivateController
-```
+```bash
 public function postUpdateUser(UpdateUserRequest $request, User $user) {
     $action = UserAction::updateUser($request,$user);
     if ($action['phone'] == 1)
