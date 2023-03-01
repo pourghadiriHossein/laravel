@@ -1,4 +1,4 @@
-# Create Migrations and Models
+# Create Migrations and Models  In Laravel
 
 <ol>
     <li>Create All Object With Detail for Migration and Model
