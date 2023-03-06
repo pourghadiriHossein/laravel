@@ -1,154 +1,466 @@
-# Show User Detail on Private Side and Update User Mechanism In lravel
+# CRUD Mechanism For Permissions and Roles In lravel
 
-## Update User Update Controller
+## Create PermissionAction file then Write Starter Structure
 ```bash
-public function updateUser(User $user) {
-    $roles = RoleAction::getAllRole();
-    return view('private.user.updateUser', compact('roles','user'));
+<?php
+
+namespace App\Actions;
+
+class PermissionAction {
+    //Query Part
+
+    //Tools Part
+
+    //Edit Part
+
+    //necessary function
+
+}
+```
+## Add Static Function to Query Part and Edit Part Function in PermissionAction
+### Query Part
+```bash
+public static function getAllPermission() {
+    $allPermissions = Permission::all();
+    return $allPermissions;
+}
+```
+```bash
+public static function getPermission($id) {
+    $permission = Permission::find($id);
+    return $permission;
+}
+```
+### Edit Part
+```bash
+public static function addPermission($request)
+{
+    Permission::create($request->all());
+    return back();
+}
+```
+```bash
+public static function updatePermission($request, $permission_id)
+{
+    $updatePermission = self::getPermission($permission_id);
+    $updatePermission->name = $request->input('name');
+    $updatePermission->guard_name = $request->input('guard_name');
+    $updatePermission->update();
+    return back();
+}
+```
+```bash
+public static function deletePermission($permission_id)
+{
+    $permission = self::getPermission($permission_id);
+    if ($permission) {
+        $permission->delete();
+        return back();
+    }
 }
 ```
 
-
-## Change Update User Blade
+## Add Static Function to Query Part and Edit Part Function in RoleAction
+### Query Part
 ```bash
-<form class="form-horizontal" action="{{ route('postUpdateUser',$user) }}" method="post" enctype="multipart/form-data">
-  @csrf
-  <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
-      <div class="form-group">
-          <label class="col-lg-2 control-label">نام و نام خانوادگی</label>
-          <div class="col-lg-10">
-              <input value="{{ $user->name }}" type="text" name="name" class="form-control" placeholder="نام و نام خانوادگی خود را وارد کنید">
-          </div>
-      </div>
-      <div class="form-group">
-          <label class="col-lg-2 control-label">شماره تماس</label>
-          <div class="col-lg-10">
-              <input value="{{ $user->phone }}" type="text" name="phone" class="form-control" placeholder="شماره تماس خود را وارد کنید">
-              <div class="help-block with-errors"></div>
-          </div>
-      </div>
-      <div class="form-group">
-          <label class="col-lg-2 control-label">پست الکترونیک</label>
-          <div class="col-lg-10">
-              <input value="{{ $user->email }}" type="text" name="email" class="form-control" placeholder="پست الکترونیک خود را وارد کنید">
-              <div class="help-block with-errors"></div>
-          </div>
-      </div>
-      <div class="form-group">
-          <label class="col-lg-2 control-label">رمز عبور</label>
-          <div class="col-lg-10">
-              <input type="text" name="password" class="form-control" placeholder="رمز عبور خود را وارد کنید">
-              <div class="help-block with-errors"></div>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 control-label">وضعیت کاربر</label>
-          <div class="col-lg-10">
-              <select name="status" class="form-control" style="height: 40px">
-                  <option value="0" @if($user->status == 0) selected @endif>غیر فعال</option>
-                  <option value="1" @if($user->status == 1) selected @endif>فعال</option>
-              </select>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 control-label">نقش کاربر</label>
-          <div class="col-lg-10">
-              <select name="role" class="form-control" style="height: 40px">
-                  @foreach ($roles as $role)
-                  <option value="{{ $role->id }}" @if($user->roles[0]->id == $role->id) selected @endif>{{ $role->name }}</option>
-                  @endforeach
-              </select>
-          </div>
-      </div>
-  </fieldset>
-  <input type="submit" class="finish btn btn-danger" value="تایید"/>
-</form>
+public static function getRole($id) {
+    $role = Role::find($id);
+    return $role;
+}
 ```
-
-## Create Update user Request
 ```bash
-php artisan make:request UpdateUserRequest
+public static function getRolePermissions($id) {
+    $role = self::getRole($id);
+    $rolePermissions = $role->permissions()->pluck('name')->toArray();
+    return $rolePermissions;
+}
 ```
-
-## Change Authorize and Rules
+### Edit Part
 ```bash
+public static function addRole($request)
+{
+    $newRole = Role::create($request->all());
+    $newRole->permissions()->sync($request->input('permissions'));
+    return back();
+}
+```
+```bash
+public static function updateRole($request, $role_id)
+{
+    $updateRole = self::getRole($role_id);
+    $updateRole->name = $request->input('name');
+    $updateRole->guard_name = $request->input('guard_name');
+    $updateRole->update();
+    $updateRole->Permissions()->sync($request->input('permissions'));
+    return back();
+}
+```
+```bash
+public static function deleteRole($role_id)
+{
+    $role = self::getRole($role_id);
+    if ($role) {
+        $role->delete();
+        return back();
+    }
+}
+```
+## Create Add Permission Request
+### Authorize
+``` bash
 public function authorize()
 {
     return true;
 }
 ```
-```bash
+### Rules
+``` bash
 public function rules()
 {
-    if ($this->input('password')) {
-        return [
-            'name' => 'min:3|max:100',
-            'phone' => 'digits_between:11,14',
-            'email' => 'email',
-            'password' => ['max:100',
-            Password::min(4)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
-            'status' => 'digits_between:0,1',
-            'role' =>'digits_between:1,2'
-        ];
-    }
-    else {
-        return [
-            'name' => 'min:3|max:100',
-            'phone' => 'digits_between:11,14',
-            'email' => 'email',
-            'status' => 'digits_between:0,1',
-            'role' =>'digits_between:1,2'
-        ];
-    }
+    return [
+        'name' => 'required|min:3|max:100',
+        'guard_name' => 'required|min:3|max:100',
+    ];
 }
 ```
 
-## Create Update User Action in UserAction
-```bash
-public static function updateUser($request, $user)
+## Create Update Permission Request
+### Authorize
+``` bash
+public function authorize()
 {
-    $uniqueParameter = ['phone' => 0, 'email' => 0];
-    $phone = $request->input('phone');
-    $email = $request->input('email');
-    if ($request->input('phone') && $request->input('phone') != $user->phone)
-    {
-        if (self::checkPhone($phone) == true)
-        {
-            $uniqueParameter['phone'] = 1;
-            return $uniqueParameter;
-        }
-    }
-    if ($request->input('email') && $request->input('email') != $user->email)
-    {
-        if (self::checkEmail($email) == true)
-        {
-            $uniqueParameter['email'] = 1;
-            return $uniqueParameter;
-        }
-    }
-    $user->name = $request->input('name');
-    $user->phone = $phone;
-    $user->email = $email;
-    if ($request->input('password'))
-        $user->password = Hash::make($request->input('password'));
-    $user->status = $request->input('status');
-    $user->save();
-
-    $user->syncRoles(Role::findById($request->input('role')));
-    return $uniqueParameter;
+    return true;
+}
+```
+### Rules
+``` bash
+public function rules()
+{
+    return [
+        'name' => 'min:3|max:100',
+        'guard_name' => 'min:3|max:100',
+    ];
 }
 ```
 
-## Update postUpdateUser in PrivateController
+
+## Create Add Role Request
+### Authorize
+``` bash
+public function authorize()
+{
+    return true;
+}
+```
+### Rules
+``` bash
+public function rules() {
+    return [
+        'name' => 'required|min:3|max:100',
+        'guard_name' => 'required|min:3|max:100',
+        'permissions' => 'array',
+        'permissions.*' => 'numeric',
+    ];
+}
+```
+
+
+## Create Update Role Request
+### Authorize
+``` bash
+public function authorize()
+{
+    return true;
+}
+```
+### Rules
+``` bash
+public function rules()
+{
+    return [
+        'name' => 'min:3|max:100',
+        'guard_name' => 'min:3|max:100',
+        'permissions' => 'array',
+        'permissions.*' => 'numeric',
+    ];
+}
+```
+
+## Permissions CRUD Function in Private Controller
+### Visit Permissions
 ```bash
-public function postUpdateUser(UpdateUserRequest $request, User $user) {
-    $action = UserAction::updateUser($request,$user);
-    if ($action['phone'] == 1)
-        return redirect()->back()->with('danger','کاربری با این شماره تماس وجود دارد');
-    if ($action['email'] == 1)
-        return redirect()->back()->with('danger', 'کاربری با این ایمیل وجود دارد');
-    return redirect(route('visitUser'));
+public function visitPermission() {
+    $permissions = PermissionAction::getAllPermission();
+    return view('private.permission.visitPermission', compact('permissions'));
+}
+```
+### Visit Permissions Blade
+```bash
+@foreach ($permissions as $permission)
+<tr>
+    <td>{{ $permission->id }}</td>
+    <td class="hidden-phone">{{ $permission->name }}</td>
+    <td class="hidden-phone">{{ $permission->guard_name }}</td>
+    <td>
+        <a class="label label-danger" data-toggle="modal"
+        href="#myModal{{ $permission->id }}">حذف</a>
+        <a class="label label-success"
+        href="{{ route('updatePermission',$permission->id) }}">ویرایش</a>
+    </td>
+
+    <div class="modal fade" id="myModal{{ $permission->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">حذف دسترسی آزاد</h4>
+            </div>
+            <div class="modal-body">
+                ایا از این عمل اطمینان دارید؟
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-warning" type="button">
+                    خیر
+                </button>
+                <a href="{{ route('deletePermission',$permission->id) }}" class="btn btn-danger" type="button">آری</a>
+            </div>
+        </div>
+    </div>
+</tr>
+@endforeach
+```
+### Add Permissions
+```bash
+public function addPermission() {
+    return view('private.permission.addPermission');
+}
+```
+### Add Permissions Blade
+```bash
+<form class="form-horizontal" action="{{ route('postAddPermission') }}" method="post" data-toggle="validator" id="user-form">
+    @csrf
+    <div class="form-group">
+        <label class="col-lg-2 control-label">نام دسترسی</label>
+        <div class="col-lg-10">
+            <input value="" type="text" name="name" class="form-control" placeholder="نام دسترسی">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">نوع دسترسی</label>
+        <div class="col-lg-10">
+            <input value="" type="text" name="guard_name" class="form-control" placeholder="عنوان دسترسی">
+        </div>
+    </div>
+    <input type="submit" class="finish btn btn-success" value="ذخیره"/>
+</form>
+```
+### Post Add Permissions
+```bash
+public function postAddPermission(AddPermissionRequest $request) {
+    PermissionAction::addPermission($request);
+    return redirect(route('visitPermission'));
+}
+```
+### Update Permissions
+```bash
+public function updatePermission($permission_id) {
+    $permission = PermissionAction::getPermission($permission_id);
+    return view('private.permission.updatePermission', compact('permission'));
+}
+```
+### Update Permissions Blade
+```bash
+<form class="form-horizontal" action="{{ route('postUpdatePermission',$permission->id) }}" method="post" data-toggle="validator" id="user-form">
+    @csrf
+    <div class="form-group">
+        <label class="col-lg-2 control-label">نام دسترسی</label>
+        <div class="col-lg-10">
+            <input value="{{ $permission->name }}" type="text" name="name" class="form-control" placeholder="نام دسترسی">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">عنوان دسترسی</label>
+        <div class="col-lg-10">
+            <input value="{{ $permission->guard_name }}" type="text" name="guard_name" class="form-control" placeholder="عنوان دسترسی">
+        </div>
+    </div>
+    <input type="submit" class="finish btn btn-success" value="ذخیره"/>
+</form>
+```
+### Post Update Permissions
+```bash
+public function postUpdatePermission(UpdatePermissionRequest $request, $permission_id) {
+    PermissionAction::updatePermission($request, $permission_id);
+    return redirect(route('visitPermission'));
+}
+```
+### Delete Permissions
+```bash
+public function deletePermission($permission_id) {
+    PermissionAction::deletePermission($permission_id);
+    return redirect(route('visitPermission'));
+}
+```
+
+## Roles CRUD Function in Private Controller
+### Visit Roles
+```bash
+public function visitRole() {
+    $roles = RoleAction::getAllRole();
+    return view('private.role.visitRole', compact('roles'));
+}
+```
+### Visit Roles Blade
+```bash
+@foreach ($roles as $role)
+<tr>
+    <td>{{ $role->id }}</td>
+    <td>{{ $role->name }}</td>
+    <td>
+        @if ($role->permissions)
+        <ol>
+            @foreach ($role->permissions as $permission)
+                <li>{{ $permission->name }}</li>
+            @endforeach
+        </ol>
+        @endif
+    </td>
+    <td>
+        <a class="label label-danger" data-toggle="modal" href="#myModal{{ $role->id }}">حذف</a>
+        <a class="label label-success" href="{{ route('updateRole',$role->id) }}">ویرایش</a>
+    </td>
+
+    <div class="modal fade" id="myModal{{ $role->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;
+                    </button>
+                    <h4 class="modal-title">حذف {{ $role->name }}</h4>
+                </div>
+                <div class="modal-body">
+                    ایا از این عمل اطمینان دارید؟
+
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-warning" type="button">
+                        خیر
+                    </button>
+                    <a href="{{ route('deleteRole',$role->id) }}" class="btn btn-danger" type="button">آری</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</tr>
+@endforeach
+```
+### Add Roles
+```bash
+public function addRole() {
+    $permissions = PermissionAction::getAllPermission();
+    return view('private.role.addRole', compact('permissions'));
+}
+```
+### Add Roles Blade
+```bash
+<form class="form-horizontal" action="{{ route('postAddRole') }}" method="post" data-toggle="validator" id="user-form">
+    @csrf
+    <div class="form-group">
+        <label class="col-lg-2 control-label">نام نقش</label>
+        <div class="col-lg-10">
+            <input value="{{ old('name') }}" type="text" name="name" class="form-control" placeholder="نام نقش">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">شرح نقش</label>
+        <div class="col-lg-10">
+            <input value="{{ old('guard_name') }}" type="text" name="guard_name" class="form-control" placeholder="شرح نقش">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">سطوح دسترسی</label>
+        <div class="col-lg-10">
+            @foreach ($permissions as $permission)
+            <label class="access_lvl">
+                <input type="checkbox" name="permissions[]" value="{{ $permission->id }}">{{ $permission->name }}
+            </label><br/>
+            @endforeach
+        </div>
+    </div>
+    <input type="submit" class="finish btn btn-success" value="ذخیره"/>
+</form>
+```
+### Post Add Roles
+```bash
+public function postAddRole(AddRoleRequest $request) {
+    RoleAction::addRole($request);
+    return redirect(route('visitRole'));
+}
+```
+### Update Roles
+```bash
+public function updateRole($role_id) {
+    $role = RoleAction::getRole($role_id);
+    $rolePermissions = RoleAction::getRolePermissions($role_id);
+    $permissions = PermissionAction::getAllPermission();
+    return view('private.role.updateRole', compact('role', 'rolePermissions', 'permissions'));
+}
+```
+### Update Roles Blade
+```bash
+<form class="form-horizontal" action="{{ route('postUpdateRole',$role->id) }}" method="post" data-toggle="validator" id="user-form">
+  <div class="form-group">
+      @csrf
+      <label class="col-lg-2 control-label">نام نقش</label>
+      <div class="col-lg-10">
+          <input value="{{ $role->name }}" type="text" name="name"
+                 class="form-control" placeholder="نام نقش">
+      </div>
+  </div>
+  <div class="form-group">
+      <label class="col-lg-2 control-label">شرح نقش</label>
+      <div class="col-lg-10">
+          <input value="{{ $role->guard_name }}" type="text" name="guard_name"
+                 class="form-control" placeholder="شرح نقش">
+      </div>
+  </div>
+  <div class="form-group">
+      <label class="col-lg-2 control-label">سطوح دسترسی</label>
+      <div class="col-lg-10">
+          @foreach($permissions as $permission)
+              <label class="access_lvl">
+                  <input type="checkbox" name="permissions[]"
+                         @if(in_array($permission->name,$rolePermissions)) checked @endif
+                         value="{{$permission->id}}"> {{$permission->name}}
+              </label>
+              <br/>
+          @endforeach
+      </div>
+  </div>
+  <input type="submit" class="finish btn btn-success" value="ذخیره"/>
+</form>
+```
+### Post Update Roles
+```bash
+public function postUpdateRole(UpdateRoleRequest $request, $role_id) {
+    RoleAction::updateRole($request, $role_id);
+    return redirect(route('visitRole'));
+}
+```
+### Delete Roles
+```bash
+public function deleteRole($role_id) {
+    RoleAction::deleteRole($role_id);
+    return redirect(route('visitRole'));
 }
 ```
