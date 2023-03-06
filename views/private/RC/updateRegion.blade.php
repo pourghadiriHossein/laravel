@@ -9,6 +9,8 @@
                     <section class="panel">
                         <header class="panel-heading">ویرایش استان</header>
                         <div class="panel-body">
+                            @include('include.showError')
+                            @include('include.validationError')
                             <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                                 <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
                                     <div class="form-group">
