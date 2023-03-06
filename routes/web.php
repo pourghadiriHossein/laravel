@@ -3,7 +3,7 @@
 use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
-route::get('', [PublicController::class, 'index']);
+Route::get('', [PublicController::class, 'index']);
 
 Route::get('cart',[PublicController::class, 'cart'])->name('cart');
 
