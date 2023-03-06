@@ -10,6 +10,8 @@
                         <header class="panel-heading">افزودن نقش</header>
                         <div class="panel-body">
                             <div class="form">
+                            @include('include.showError')
+                            @include('include.validationError')
                                 <form class="form-horizontal" action="" method="post" data-toggle="validator" id="user-form">
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نام نقش</label>
