@@ -4842,87 +4842,2042 @@ Route::get('update-comment/{comment}', [PrivateController::class, 'updateComment
 Route::post('update-comment/{id}',[PrivateController::class, 'postUpdateComment'])->name('postUpdateComment');
 ```
 
-## Create region Process
-- ### Create blade.php files for regions process in resources/views/private folder
+## Create Region Process
+- ### Create blade.php files for Region process in resources/views/private folder
+- ### Visit Region
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <style type="text/css" class="init">
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+    </style>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/jq.dataTable.min.js">
+    </script>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/dataTables.bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#orderTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input class="form-control input-sm" type="text" placeholder="' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#orderTable').DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">مدیریت استان ها</header>
+                <div class="container">
+                    <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                        <br/>
+                        <table id="orderTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام</th>
+                                <th style="text-align: right">وضعیت</th>
+                                <th style="text-align: right">امکانات</th>
+                            </tr>
+                            </thead>
+                            <tfoot style="direction: rtl;">
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام</th>
+                                <th style="text-align: right">وضعیت</th>
+                                <th style="text-align: right">امکانات</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>گیلان</td>
+                                    <td>
+                                        <p class="label label-success">فعال</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-warning" href="{{ route('updateRegion',1) }}">ویرایش</a>
+                                        <a class="label label-info" href="{{ route('addCity',1) }}">افزودن شهر +</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>گیلان</td>
+                                    <td>
+                                        <p class="label label-warning">غیر فعال</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-warning" href="{{ route('updateRegion',1) }}">ویرایش</a>
+                                        <a class="label label-info" href="{{ route('addCity',2) }}">افزودن شهر +</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
-- ### Create public functions for region process in PrivateController
+- ### Add Region
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <section id="main-content">
+        <section class="wrapper">
+            <!-- page start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">افزودن استان</header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" action="{{ route('postAddRegion') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">نام استان</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="label" class="form-control" placeholder="نام استان">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">وضعیت استان</label>
+                                        <div class="col-lg-10">
+                                            <select name="status" class="form-control" style="height: 40px">
+                                                <option value="0" selected>غیر فعال</option>
+                                                <option value="1">فعال</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <input type="submit" class="finish btn btn-danger" value="تایید"/>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- page end-->
+        </section>
+    </section>
+    <!--main content end-->
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('private-side-files') }}/js/jquery.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.scrollTo.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+
+    <!--script for this page-->
+    <script src="{{ asset('private-side-files') }}/js/jquery.stepy.js"></script>
+
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search1').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search2').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.fa.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/upload-image.js"></script>
+
+    <script>
+        //step wizard
+
+        $(function () {
+            $('#default').stepy({
+                backLabel: 'قبلی',
+                block: true,
+                nextLabel: 'بعدی',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker0").datepicker();
+
+            $("#datepicker_captive").datepicker();
+            $("#datepicker_captivebtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive").focus();
+            })
+            $("#datepicker_captive2").datepicker();
+            $("#datepicker_captive2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive2").focus();
+            })
+
+            $("#datepicker_war").datepicker();
+            $("#datepicker_warbtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war").focus();
+            })
+            $("#datepicker_war2").datepicker();
+            $("#datepicker_war2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war2").focus();
+            })
+
+            $("#datepicker2").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $("#datepicker3").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });
+
+            $("#datepicker4").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $("#datepicker5").datepicker({
+                minDate: 0,
+                maxDate: "+14D"
+            });
+
+            $("#datepicker6").datepicker({
+                isRTL: true,
+                dateFormat: "d/m/yy"
+            });
+        });
+
+
+    </script>
+
+    <script>
+        function showCity(element) {
+
+            var id = document.getElementById("region_id").options[document.getElementById("region_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/cities/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("city_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+    <script>
+        function showZone(element) {
+
+            var id = document.getElementById("city_id").options[document.getElementById("city_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/zones/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("zone_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
-- ### Create get/post method routes for region process in routes/web.php
+- ### Update Region
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <section id="main-content">
+        <section class="wrapper">
+            <!-- page start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">ویرایش استان</header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" action="{{ route('postUpdateRegion',1) }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">نام استان</label>
+                                        <div class="col-lg-10">
+                                            <input value="" type="text" name="label" class="form-control" placeholder="نام استان">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">وضعیت استان</label>
+                                        <div class="col-lg-10">
+                                            <select name="status" class="form-control" style="height: 40px">
+                                                <option value="0">غیر فعال</option>
+                                                <option value="1">فعال</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <input type="submit" class="finish btn btn-danger" value="تایید"/>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- page end-->
+        </section>
+    </section>
+    <!--main content end-->
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('private-side-files') }}/js/jquery.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.scrollTo.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+
+    <!--script for this page-->
+    <script src="{{ asset('private-side-files') }}/js/jquery.stepy.js"></script>
+
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search1').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search2').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.fa.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/upload-image.js"></script>
+
+    <script>
+        //step wizard
+
+        $(function () {
+            $('#default').stepy({
+                backLabel: 'قبلی',
+                block: true,
+                nextLabel: 'بعدی',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker0").datepicker();
+
+            $("#datepicker_captive").datepicker();
+            $("#datepicker_captivebtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive").focus();
+            })
+            $("#datepicker_captive2").datepicker();
+            $("#datepicker_captive2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive2").focus();
+            })
+
+            $("#datepicker_war").datepicker();
+            $("#datepicker_warbtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war").focus();
+            })
+            $("#datepicker_war2").datepicker();
+            $("#datepicker_war2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war2").focus();
+            })
+
+            $("#datepicker2").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $("#datepicker3").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });
+
+            $("#datepicker4").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $("#datepicker5").datepicker({
+                minDate: 0,
+                maxDate: "+14D"
+            });
+
+            $("#datepicker6").datepicker({
+                isRTL: true,
+                dateFormat: "d/m/yy"
+            });
+        });
+
+
+    </script>
+
+    <script>
+        function showCity(element) {
+
+            var id = document.getElementById("region_id").options[document.getElementById("region_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/cities/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("city_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+    <script>
+        function showZone(element) {
+
+            var id = document.getElementById("city_id").options[document.getElementById("city_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/zones/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("zone_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
+```
+- ### Create public functions for Region process in PrivateController
+```bash
+public function visitRegion() {
+    return view('private.RC.visitRegion');
+}
+
+public function addRegion() {
+    return view('private.RC.addRegion');
+}
+
+public function postAddRegion() {
+    return redirect(route('visitRegion'));
+}
+
+public function updateRegion() {
+    return view('private.RC.updateRegion');
+}
+
+public function postUpdateRegion() {
+    return redirect(route('visitRegion'));
+}
+```
+- ### Create get/post method routes for Region process in routes/web.php
+```bash
+Route::get('visit-region',[PrivateController::class, 'visitRegion'])->name('visitRegion');
+Route::get('add-region',[PrivateController::class, 'addRegion'])->name('addRegion');
+Route::post('add-region',[PrivateController::class, 'postAddRegion'])->name('postAddRegion');
+Route::get('update-region/{region}',[PrivateController::class, 'updateRegion'])->name('updateRegion');
+Route::post('update-region/{id}',[PrivateController::class, 'postUpdateRegion'])->name('postUpdateRegion');
 ```
    
-## Create city Process
-- ### Create blade.php files for cities process in resources/views/private folder
+## Create City Process
+- ### Create blade.php files for Cities process in resources/views/private folder
+- ### Visit City
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <style type="text/css" class="init">
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+    </style>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/jq.dataTable.min.js">
+    </script>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/dataTables.bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#orderTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input class="form-control input-sm" type="text" placeholder="' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#orderTable').DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">مدیریت شهر ها</header>
+                <div class="container">
+                    <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                        <br/>
+                        <table id="orderTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام</th>
+                                <th style="text-align: right">وضعیت</th>
+                                <th style="text-align: right">امکانات</th>
+                            </tr>
+                            </thead>
+                            <tfoot style="direction: rtl;">
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام</th>
+                                <th style="text-align: right">وضعیت</th>
+                                <th style="text-align: right">امکانات</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>رشت</td>
+                                    <td>
+                                        <p class="label label-warning">غیر فعال</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-warning" href="{{ route('updateCity',1) }}">ویرایش</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>رشت</td>
+                                    <td>
+                                        <p class="label label-success">فعال</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-warning" href="{{ route('updateCity',2) }}">ویرایش</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
-- ### Create public functions for city process in PrivateController
+- ### Add City
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <section id="main-content">
+        <section class="wrapper">
+            <!-- page start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">افزودن شهر</header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" action="{{ route('postAddCity',1) }}"method="post" enctype="multipart/form-data">
+                                @csrf
+                                <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">نام شهر</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="label" class="form-control" placeholder="نام شهر">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">وضعیت شهر</label>
+                                        <div class="col-lg-10">
+                                            <select name="status" class="form-control" style="height: 40px">
+                                                <option value="0" selected>غیر فعال</option>
+                                                <option value="1">فعال</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <input type="submit" class="finish btn btn-danger" value="تایید"/>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- page end-->
+        </section>
+    </section>
+    <!--main content end-->
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('private-side-files') }}/js/jquery.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.scrollTo.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+
+    <!--script for this page-->
+    <script src="{{ asset('private-side-files') }}/js/jquery.stepy.js"></script>
+
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search1').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search2').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.fa.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/upload-image.js"></script>
+
+    <script>
+        //step wizard
+
+        $(function () {
+            $('#default').stepy({
+                backLabel: 'قبلی',
+                block: true,
+                nextLabel: 'بعدی',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker0").datepicker();
+
+            $("#datepicker_captive").datepicker();
+            $("#datepicker_captivebtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive").focus();
+            })
+            $("#datepicker_captive2").datepicker();
+            $("#datepicker_captive2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive2").focus();
+            })
+
+            $("#datepicker_war").datepicker();
+            $("#datepicker_warbtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war").focus();
+            })
+            $("#datepicker_war2").datepicker();
+            $("#datepicker_war2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war2").focus();
+            })
+
+            $("#datepicker2").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $("#datepicker3").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });
+
+            $("#datepicker4").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $("#datepicker5").datepicker({
+                minDate: 0,
+                maxDate: "+14D"
+            });
+
+            $("#datepicker6").datepicker({
+                isRTL: true,
+                dateFormat: "d/m/yy"
+            });
+        });
+
+
+    </script>
+
+    <script>
+        function showCity(element) {
+
+            var id = document.getElementById("region_id").options[document.getElementById("region_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/cities/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("city_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+    <script>
+        function showZone(element) {
+
+            var id = document.getElementById("city_id").options[document.getElementById("city_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/zones/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("zone_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
-- ### Create get/post method routes for city process in routes/web.php
+- ### Update City
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <section id="main-content">
+        <section class="wrapper">
+            <!-- page start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">ویرایش شهر</header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" action="{{ route('postUpdateCity',1) }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">نام شهر</label>
+                                        <div class="col-lg-10">
+                                            <input value="" type="text" name="label" class="form-control" placeholder="نام شهر">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">وضعیت شهر</label>
+                                        <div class="col-lg-10">
+                                            <select name="status" class="form-control" style="height: 40px">
+                                                <option value="0">غیر فعال</option>
+                                                <option value="1">فعال</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <input type="submit" class="finish btn btn-danger" value="تایید"/>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- page end-->
+        </section>
+    </section>
+    <!--main content end-->
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('private-side-files') }}/js/jquery.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.scrollTo.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+
+    <!--script for this page-->
+    <script src="{{ asset('private-side-files') }}/js/jquery.stepy.js"></script>
+
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search1').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search2').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.fa.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/upload-image.js"></script>
+
+    <script>
+        //step wizard
+
+        $(function () {
+            $('#default').stepy({
+                backLabel: 'قبلی',
+                block: true,
+                nextLabel: 'بعدی',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker0").datepicker();
+
+            $("#datepicker_captive").datepicker();
+            $("#datepicker_captivebtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive").focus();
+            })
+            $("#datepicker_captive2").datepicker();
+            $("#datepicker_captive2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive2").focus();
+            })
+
+            $("#datepicker_war").datepicker();
+            $("#datepicker_warbtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war").focus();
+            })
+            $("#datepicker_war2").datepicker();
+            $("#datepicker_war2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war2").focus();
+            })
+
+            $("#datepicker2").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $("#datepicker3").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });
+
+            $("#datepicker4").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $("#datepicker5").datepicker({
+                minDate: 0,
+                maxDate: "+14D"
+            });
+
+            $("#datepicker6").datepicker({
+                isRTL: true,
+                dateFormat: "d/m/yy"
+            });
+        });
+
+
+    </script>
+
+    <script>
+        function showCity(element) {
+
+            var id = document.getElementById("region_id").options[document.getElementById("region_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/cities/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("city_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+    <script>
+        function showZone(element) {
+
+            var id = document.getElementById("city_id").options[document.getElementById("city_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/zones/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("zone_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
+```
+- ### Create public functions for City process in PrivateController
+```bash
+public function visitCity() {
+    return view('private.RC.visitCity');
+}
+
+public function addCity() {
+    return view('private.RC.addCity');
+}
+
+public function postAddCity() {
+    return redirect(route('visitCity'));
+}
+
+public function updateCity() {
+    return view('private.RC.updateCity');
+}
+
+public function postUpdateCity() {
+    return redirect(route('visitCity'));
+}
+```
+- ### Create get/post method routes for City process in routes/web.php
+```bash
+Route::get('visit-city',[PrivateController::class, 'visitCity'])->name('visitCity');
+Route::get('add-city/{id}',[PrivateController::class, 'addCity'])->name('addCity');
+Route::post('add-city/{id}',[PrivateController::class,'postAddCity'])->name('postAddCity');
+Route::get('update-city/{city}',[PrivateController::class, 'updateCity'])->name('updateCity');
+Route::post('update-city/{id}',[PrivateController::class,'postUpdateCity'])->name('postUpdateCity');
 ```
 
 ## Create address Process
 - ### Create blade.php files for addresses process in resources/views/private folder
+- ### Visit Address
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <style type="text/css" class="init">
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+    </style>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/jq.dataTable.min.js">
+    </script>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/dataTables.bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#orderTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input class="form-control input-sm" type="text" placeholder="' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#orderTable').DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">مدیریت آدرس ها</header>
+                <div class="container">
+                    <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                        <br/>
+                        <table id="orderTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام کاربر</th>
+                                <th style="text-align: right">نام استان</th>
+                                <th style="text-align: right">نام شهر</th>
+                                <th style="text-align: right">جزئیات آدرس</th>
+                                <th style="text-align: right">وضعیت</th>
+                                <th style="text-align: right;width: 15%">امکانات</th>
+                            </tr>
+                            </thead>
+                            <tfoot style="direction: rtl;">
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام کاربر</th>
+                                <th style="text-align: right">نام استان</th>
+                                <th style="text-align: right">نام شهر</th>
+                                <th style="text-align: right">جزئیات آدرس</th>
+                                <th style="text-align: right">وضعیت</th>
+                                <th style="text-align: right;width: 15%">امکانات</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>حسین پورقدیری</td>
+                                    <td>گیلان</td>
+                                    <td>رشت</td>
+                                    <td>گلسار</td>
+                                    <td>
+                                            <p class="label label-warning" style="width: 250px">غیر فعال</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-danger" data-toggle="modal" href="#myModal1">حذف</a>
+                                    </td>
+
+                                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">&times;
+                                                    </button>
+                                                    <h4 class="modal-title">حذف آدرس</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ایا از این عمل اطمینان دارید؟
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button data-dismiss="modal" class="btn btn-warning" type="button">
+                                                        خیر
+                                                    </button>
+                                                    <a href="{{ route('deleteAddress',1) }}" class="btn btn-danger" type="button">آری</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>حسین پورقدیری</td>
+                                    <td>گیلان</td>
+                                    <td>رشت</td>
+                                    <td>گلسار</td>
+                                    <td>
+                                            <p class="label label-success" style="width: 250px">فعال</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-danger" data-toggle="modal" href="#myModal1">حذف</a>
+                                    </td>
+
+                                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">&times;
+                                                    </button>
+                                                    <h4 class="modal-title">حذف آدرس</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ایا از این عمل اطمینان دارید؟
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button data-dismiss="modal" class="btn btn-warning" type="button">
+                                                        خیر
+                                                    </button>
+                                                    <a href="{{ route('deleteAddress',2) }}" class="btn btn-danger" type="button">آری</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
 - ### Create public functions for address process in PrivateController
 ```bash
+public function visitAddress() {
+    return view('private.address.visitAddress');
+}
 
+public function deleteAddress() {
+    return redirect(route('visitAddress'));
+}
 ```
 - ### Create get/post method routes for address process in routes/web.php
 ```bash
-
+Route::get('visit-address',[PrivateController::class, 'visitAddress'])->name('visitAddress');
+Route::get('delete-address/{address}',[PrivateController::class,'deleteAddress'])->name('deleteAddress');
 ```
 
-## Create order Process
-- ### Create blade.php files for orders process in resources/views/private folder
+## Create Order Process
+- ### Create blade.php files for Orders process in resources/views/private folder
+- ### Visit Order
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <style type="text/css" class="init">
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script type="text/javascript" language="javascript" src="{{ asset('private-side-files') }}/js/jq.dataTable.min.js"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('private-side-files') }}/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#orderTable tfoot th').each(function() {
+                var title = $(this).text();
+                $(this).html('<input class="form-control input-sm" type="text" placeholder="' + title +
+                    '" />');
+            });
+
+            // DataTable
+            var table = $('#orderTable').DataTable({
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+
+            // Apply the search
+            table.columns().every(function() {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">مدیریت فاکتور ها</header>
+                <div class="container">
+                    <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                        <br />
+                        <table id="orderTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: right">شناسه</th>
+                                    <th style="text-align: right">نام کاربر</th>
+                                    <th style="text-align: right">نام استان</th>
+                                    <th style="text-align: right">نام شهر</th>
+                                    <th style="text-align: right">جزئیات آدرس</th>
+                                    <th style="text-align: right">کد تخفیف</th>
+                                    <th style="text-align: right">مبلغ کل</th>
+                                    <th style="text-align: right">مبلغ پرداخت شده</th>
+                                    <th style="text-align: right">وضعیت</th>
+                                    <th style="text-align: right">امکانات</th>
+                                </tr>
+                            </thead>
+                            <tfoot style="direction: rtl;">
+                                <tr>
+                                    <th style="text-align: right">شناسه</th>
+                                    <th style="text-align: right">نام کاربر</th>
+                                    <th style="text-align: right">نام استان</th>
+                                    <th style="text-align: right">نام شهر</th>
+                                    <th style="text-align: right">جزئیات آدرس</th>
+                                    <th style="text-align: right">کد تخفیف</th>
+                                    <th style="text-align: right">مبلغ کل</th>
+                                    <th style="text-align: right">مبلغ پرداخت شده</th>
+                                    <th style="text-align: right">وضعیت</th>
+                                    <th style="text-align: right">امکانات</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>حسین پورقدیری</td>
+                                    <td>گیلان</td>
+                                    <td>رشت</td>
+                                    <td>گلسار</td>
+                                    <td>تخفیف ندارد</td>
+                                    <td>5000000 ریال</td>
+                                    <td>4000000 ریال</td>
+                                    <td>
+                                            <p class="label label-warning" style="width: 250px">پرداخت نشده</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-danger" href="">پرداخت</a>
+                                        <a class="label label-info" data-toggle="modal" href="#myModal1">محصولات</a>
+                                        <div class="modal fade" id="myModal1" tabindex="-1"
+                                            role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">&times;
+                                                        </button>
+                                                        <h4 class="modal-title">محصولات ثبت شده در این سفارش</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table id="orderTable" class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align: right">شناسه</th>
+                                                                    <th style="text-align: right">تصویر محصول</th>
+                                                                    <th style="text-align: right">نام محصول</th>
+                                                                    <th style="text-align: right">تعداد محصول</th>
+                                                                    <th style="text-align: right">قیمت محصول</th>
+                                                                    <th style="text-align: right">قیمت پرداختی</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>
+                                                                        <img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg"
+                                                                            height="50" width="40">
+                                                                    </td>
+                                                                    <td>هودی</td>
+                                                                    <td>1</td>
+                                                                    <td>5000000 ريال</td>
+                                                                    <td>4000000 ريال</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button data-dismiss="modal" class="btn btn-warning"
+                                                            type="button">بستن
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>حسین پورقدیری</td>
+                                    <td>گیلان</td>
+                                    <td>رشت</td>
+                                    <td>گلسار</td>
+                                    <td>تخفیف ندارد</td>
+                                    <td>5000000 ریال</td>
+                                    <td>4000000 ریال</td>
+                                    <td>
+                                            <p class="label label-success" style="width: 250px">پرداخت شده</p>
+                                    </td>
+                                    <td>
+                                        <a class="label label-danger" href="">پرداخت</a>
+                                        <a class="label label-info" data-toggle="modal" href="#myModal2">محصولات</a>
+                                        <div class="modal fade" id="myModal2" tabindex="-1"
+                                            role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">&times;
+                                                        </button>
+                                                        <h4 class="modal-title">محصولات ثبت شده در این سفارش</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table id="orderTable" class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align: right">شناسه</th>
+                                                                    <th style="text-align: right">تصویر محصول</th>
+                                                                    <th style="text-align: right">نام محصول</th>
+                                                                    <th style="text-align: right">تعداد محصول</th>
+                                                                    <th style="text-align: right">قیمت محصول</th>
+                                                                    <th style="text-align: right">قیمت پرداختی</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>
+                                                                        <img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg"
+                                                                            height="50" width="40">
+                                                                    </td>
+                                                                    <td>هودی</td>
+                                                                    <td>1</td>
+                                                                    <td>5000000 ريال</td>
+                                                                    <td>4000000 ريال</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button data-dismiss="modal" class="btn btn-warning"
+                                                            type="button">بستن
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <script>
+        //owl carousel
+
+        $(document).ready(function() {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function() {
+            $('select.styled').customSelect();
+        });
+    </script>
+@endsection
 ```
 - ### Create public functions for order process in PrivateController
 ```bash
-
+public function visitOrder() {
+    return view('private.order.visitOrder');
+}
 ```
 - ### Create get/post method routes for order process in routes/web.php
 ```bash
-
+Route::get('visit-order',[PrivateController::class, 'visitOrder'])->name('visitOrder');
 ```
 
 ## Create transaction Process
 - ### Create blade.php files for transactions process in resources/views/private folder
+- ### Visit Transaction
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <style type="text/css" class="init">
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+    </style>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/jq.dataTable.min.js">
+    </script>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/dataTables.bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#orderTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input class="form-control input-sm" type="text" placeholder="' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#orderTable').DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">مدیریت تراکنش ها</header>
+                <div class="container">
+                    <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                        <br/>
+                        <table id="orderTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">شناسه فاکتور</th>
+                                <th style="text-align: right">مبلغ پرداخت شده</th>
+                                <th style="text-align: right">کد رهگیری</th>
+                                <th style="text-align: right">شناسه IDPay</th>
+                                <th style="text-align: right">شماره کارت</th>
+                                <th style="text-align: right">زمان پرداخت</th>
+                                <th style="text-align: right">زمان تایید پرداخت</th>
+                                <th style="text-align: right">وضعیت</th>
+                            </tr>
+                            </thead>
+                            <tfoot style="direction: rtl;">
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">شناسه فاکتور</th>
+                                <th style="text-align: right">مبلغ پرداخت شده</th>
+                                <th style="text-align: right">کد رهگیری</th>
+                                <th style="text-align: right">شناسه IDPay</th>
+                                <th style="text-align: right">شماره کارت</th>
+                                <th style="text-align: right">زمان پرداخت</th>
+                                <th style="text-align: right">زمان تایید پرداخت</th>
+                                <th style="text-align: right">وضعیت</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>5000000 ریال</td>
+                                    <td>vjnrvrjvut4859tg</td>
+                                    <td>785795</td>
+                                    <td>5892-****-****-1604</td>
+                                    <td>1401/10/25 22:40:31</td>
+                                    <td>1401/10/25 22:40:55</td>
+                                    <td>
+                                        <p class="label label-warning" style="width: 250px">به دریافت کننده واریز شد</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
 - ### Create public functions for transaction process in PrivateController
 ```bash
-
+public function visitTransaction() {
+    return view('private.transaction.visitTransaction');
+}
 ```
 - ### Create get/post method routes for transaction process in routes/web.php
 ```bash
-
+Route::get('visit-transaction', [PrivateController::class, 'visitTransaction'])->name('visitTransaction');
 ```
 
    
-## Create contact Process
-- ### Create blade.php files for contacts process in resources/views/private folder
+## Create Contact Process
+- ### Create blade.php files for Contacts process in resources/views/private folder
+- ### Visit Contact
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <style type="text/css" class="init">
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+    </style>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/jq.dataTable.min.js">
+    </script>
+    <script type="text/javascript" language="javascript" src="{{asset('private-side-files')}}/js/dataTables.bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#orderTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input class="form-control input-sm" type="text" placeholder="' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#orderTable').DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+    <section id="main-content">
+        <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading">مدیریت تراکنش ها</header>
+                <div class="container">
+                    <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                        <br/>
+                        <table id="orderTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام و نام خانوادگی</th>
+                                <th style="text-align: right">شماره تماس</th>
+                                <th style="text-align: right">متن پیام</th>
+                                <th style="text-align: right">وضعیت</th>
+                            </tr>
+                            </thead>
+                            <tfoot style="direction: rtl;">
+                            <tr>
+                                <th style="text-align: right">شناسه</th>
+                                <th style="text-align: right">نام و نام خانوادگی</th>
+                                <th style="text-align: right">شماره تماس</th>
+                                <th style="text-align: right">متن پیام</th>
+                                <th style="text-align: right">وضعیت</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>حسین پورقدیری</td>
+                                        <td>09398932183</td>
+                                        <td>لباس بسیار عال...</td>
+                                        <td>
+                                                <a href="{{ route('seeContactDetail',1) }}"><p class="label label-danger">مشاهده نشده</p></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>حسین پورقدیری</td>
+                                        <td>09398932183</td>
+                                        <td>لباس بسیار عال...</td>
+                                        <td>
+                                                <a href="{{ route('seeContactDetail',1) }}"><p class="label label-success">مشاهده شده</p></a>
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
-- ### Create public functions for contact process in PrivateController
+- ### See Visit Contact
 ```bash
+@extends('private.layout.privateLayout')
 
+@section('content')
+    <section id="main-content">
+        <section class="wrapper">
+            <!-- page start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">مشاهده جزئیات تماس با ماه</header>
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">نام و نام خانوادگی</label>
+                                        <div class="col-lg-10">
+                                            <input value="حسین پورقدیری" type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">شماره تماس</label>
+                                        <div class="col-lg-10">
+                                            <input value="09398932183" type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">پست الکترونیک</label>
+                                        <div class="col-lg-10">
+                                            <input value="hossein.654321@yahoo.com" type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">وضعیت نظر</label>
+                                        <div class="col-lg-10">
+                                            <select disabled name="status" class="form-control" style="height: 40px">
+                                                <option value="0">غیر فعال</option>
+                                                <option value="1">فعال</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">متن ارسالی کاربر</label>
+                                        <div class="col-lg-10">
+                                            <textarea disabled name="description" class="form-control">سلام با من تماس بگیرید</textarea>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- page end-->
+        </section>
+    </section>
+    <!--main content end-->
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('private-side-files') }}/js/jquery.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.scrollTo.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+
+    <!--script for this page-->
+    <script src="{{ asset('private-side-files') }}/js/jquery.stepy.js"></script>
+
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('private-side-files') }}/js/multiselect.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search1').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#search2').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/bootstrap-datepicker.fa.min.js"></script>
+    <script src="{{ asset('private-side-files') }}/js/upload-image.js"></script>
+
+    <script>
+        //step wizard
+
+        $(function () {
+            $('#default').stepy({
+                backLabel: 'قبلی',
+                block: true,
+                nextLabel: 'بعدی',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker0").datepicker();
+
+            $("#datepicker_captive").datepicker();
+            $("#datepicker_captivebtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive").focus();
+            })
+            $("#datepicker_captive2").datepicker();
+            $("#datepicker_captive2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_captive2").focus();
+            })
+
+            $("#datepicker_war").datepicker();
+            $("#datepicker_warbtn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war").focus();
+            })
+            $("#datepicker_war2").datepicker();
+            $("#datepicker_war2btn").click(function (event) {
+                event.preventDefault();
+                $("#datepicker_war2").focus();
+            })
+
+            $("#datepicker2").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $("#datepicker3").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });
+
+            $("#datepicker4").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $("#datepicker5").datepicker({
+                minDate: 0,
+                maxDate: "+14D"
+            });
+
+            $("#datepicker6").datepicker({
+                isRTL: true,
+                dateFormat: "d/m/yy"
+            });
+        });
+
+
+    </script>
+
+    <script>
+        function showCity(element) {
+
+            var id = document.getElementById("region_id").options[document.getElementById("region_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/cities/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("city_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+    <script>
+        function showZone(element) {
+
+            var id = document.getElementById("city_id").options[document.getElementById("city_id").selectedIndex].value;
+            var link = "http://localhost/jabo/public/zones/" + id;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById("zone_id").innerHTML = xmlhttp.responseText;
+            }
+            xmlhttp.open("GET", link, true);
+            xmlhttp.send();
+        }
+    </script>
+
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+@endsection
 ```
-- ### Create get/post method routes for contact process in routes/web.php
+- ### Create public functions for Contacts process in PrivateController
 ```bash
+public function visitContact() {
+    return view('private.contact.visitContact');
+}
 
+public function seeContactDetail() {
+    return view('private.contact.seeContactDetail');
+}
+```
+- ### Create get/post method routes for Contacts process in routes/web.php
+```bash
+Route::get('visit-contact', [PrivateController::class, 'visitContact'])->name('visitContact');
+Route::get('visit-contact-detail/{contact}', [PrivateController::class, 'seeContactDetail'])->name('seeContactDetail');
 ```
