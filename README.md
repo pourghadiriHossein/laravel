@@ -1,151 +1,94 @@
 # Create Migrations and Models  In Laravel
 
-<ol>
-    <li>Create All Object With Detail for Migration and Model
-        <ul>
-            <br><li>User
-                <ul>
-                    <li>id</li>
-                    <li>name</li>
-                    <li>password</li>
-                    <li>email</li>
-                    <li>phone</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Laravel Spatie Permission</li>
-            <br><li>Contact
-                <ul>
-                    <li>id</li>
-                    <li>user_id</li>
-                    <li>name</li>
-                    <li>phone</li>
-                    <li>email</li>
-                    <li>description</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Discount
-                <ul>
-                    <li>id</li>
-                    <li>label</li>
-                    <li>price</li>
-                    <li>percent</li>
-                    <li>gift_code</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Category
-                <ul>
-                    <li>id</li>
-                    <li>parent_id</li>
-                    <li>discount_id</li>
-                    <li>label</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Tag
-                <ul>
-                    <li>id</li>
-                    <li>label</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Product
-                <ul>
-                    <li>id</li>
-                    <li>discount_id</li>
-                    <li>category_id</li>
-                    <li>label</li>
-                    <li>description</li>
-                    <li>price</li>
-                    <li>count</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>ProductImage
-                <ul>
-                    <li>id</li>
-                    <li>product_id</li>
-                    <li>path</li>
-                </ul>
-            </li>
-            <br><li>Comment
-                <ul>
-                    <li>id</li>
-                    <li>user_id</li>
-                    <li>product_id</li>
-                    <li>description</li>
-                    <li>status</li>
-                    <li>state</li>
-                </ul>
-            </li>
-            <br><li>Region
-                <ul>
-                    <li>id</li>
-                    <li>label</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>City
-                <ul>
-                    <li>id</li>
-                    <li>region_id</li>
-                    <li>label</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Address
-                <ul>
-                    <li>id</li>
-                    <li>city_id</li>
-                    <li>user_id</li>
-                    <li>detail</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Order
-                <ul>
-                    <li>id</li>
-                    <li>user_id</li>
-                    <li>address_id</li>
-                    <li>discount_id</li>
-                    <li>total_price</li>
-                    <li>pay_price</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Transaction
-                <ul>
-                    <li>id</li>
-                    <li>order_id</li>
-                    <li>amount</li>
-                    <li>status</li>
-                    <li>IDPay_track_id</li>
-                    <li>IDPay_id</li>
-                    <li>card_no</li>
-                    <li>pay_date</li>
-                    <li>verify_date</li>
-                </ul>
-            </li>
-            <br><li>OrderListItems
-                <ul>
-                    <li>id</li>
-                    <li>product_id</li>
-                    <li>order_id</li>
-                    <li>price</li>
-                    <li>pay_price</li>
-                    <li>count</li>
-                    <li>status</li>
-                </ul>
-            </li>
-            <br><li>Pivot product_tag
-                <ul>
-                    <li>tag_id</li>
-                    <li>product_id</li>
-                </ul>
-            </li>
-        </ul>
+## Create All Object With Detail for Migration and Model
+
+- ### User
+| id  | name | password | email | phone | status |
+| - | - | - | - | - | - |
+| int-pk  | str-100 | str | str-UNI | str-14-UNI | int |
+
+- ### Laravel Spatie Permission
+
+- ### Contact
+| id  | user_id | name | phone | email | description | status |
+| - | - | - | - | - | - | - |
+| int-pk  | int-fk-NA | str-100 | str-14 | str | str-10000 | int |
+
+- ### Discount
+| id  | label | price | percent | gift_code | status |
+| - | - | - | - | - | - |
+| int-pk  | str | decimal-20-2-NA | decimal-20-2-NA | str-NA | int |
+            
+- ### Category
+| id  | parent_id | discount_id | label | status |
+| - | - | - | - | - |
+| int-pk  | str | decimal-20-2-NA | decimal-20-2-NA | str-NA | int |
+
+- ### Tag
+| id  | label | status |
+| - | - | - |
+| int-pk  | str-100 | int |
+
+            
+- ### Product
+| id  | discount_id | category_id | label | description | price | count | status |
+| - | - | - | - | - | - | - | - |
+| int-pk  | int-fk-NA | int-fk | str-100 | str-10000 | decimal-20-2 | int-UNS | str |
+
+
+- ### ProductImage
+| id  | product_id | path |
+| - | - | - |
+| int-pk  | int-fk | str |
+
+
+- ### Comment
+| id  | user_id | product_id | description | status | state |
+| - | - | - | - | - | - |
+| int-pk  | int-fk | int-fk | str-10000 | int | bool |
+            
+            
+            
+- ### Region
+| id  | label | status |
+| - | - | - |
+| int-pk  | str-100 | int |
+
+- ### City
+| id  | region_id | label | status |
+| - | - | - | - |
+| int-pk  | int-fk | str-100 | int |
+            
+            
+- ### Address
+| id  | city_id | user_id | detail | status |
+| - | - | - | - | - |
+| int-pk  | int-fk | int-fk | str-1000 | int |
+           
+            
+- ### Order
+| id  | user_id | address_id | discount_id | total_price | pay_price | status |
+| - | - | - | - | - | - | - |
+| int-pk  | int-fk | int-fk | int-fk-NA | decimal-20-2 | decimal-20-2 | int |
+
+            
+- ### Transaction
+| id  | order_id | amount | status | IDPay_track_id | IDPay_id | card_no | pay_date | verify_date |
+| - | - | - | - | - | - | - | - | - |
+| int-pk  | int-fk | decimal-20-2 | int | int-UNS-B | str | str | str | str |
+
+
+- ### OrderListItems
+| id  | product_id | order_id | price | pay_price | count | status |
+| - | - | - | - | - | - | - |
+| int-pk  | int-fk | int-fk | decimal-20-2 | decimal-20-2 | int | int |            
+            
+- ### Pivot product_tag
+| tag_id  | product_id |
+| - | - |
+| int-pk-fk  | int-pk-fk |
+
+            
     </li><br>
     <li>How to Create Migration and Model in Terminal
         <ul>
