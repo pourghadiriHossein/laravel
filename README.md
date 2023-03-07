@@ -142,141 +142,332 @@ HasRoles
 ## Create Contact Model and Migration
 - ### Command For Create Contact Model and Migration
 ```bash
-
+php artisan make:model -m Contact
 ```
 - ### Update Contact Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('user_id')->nullable();
+$table->string('name',100);
+$table->string('phone',14);
+$table->string('email');
+$table->string('description',10000);
+$table->unsignedTinyInteger('status')->default(0);
+$table->timestamps();
 
+$table->foreign('user_id')
+->references('id')
+->on('users')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create Discount Model and Migration
 - ### Command For Create Discount Model and Migration
 ```bash
-
+php artisan make:model -m Discount
 ```
 - ### Update Discount Migration
 ```bash
-
+$table->id();
+$table->string('label');
+$table->decimal('price',20,2)->nullable();
+$table->decimal('percent',20,2)->nullable();
+$table->string('gift_code')->nullable();
+$table->unsignedTinyInteger('status')->default(0);
+$table->timestamps();
 ```
 
 ## Create Category Model and Migration
 - ### Command For Create Category Model and Migration
 ```bash
-
+php artisan make:model -m Category
 ```
 - ### Update Category Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('parent_id')->nullable();
+$table->unsignedBigInteger('discount_id')->nullable();
+$table->string('label',100);
+$table->unsignedTinyInteger('status')->default(1);
+$table->timestamps();
 
+$table->foreign('parent_id')
+->references('id')
+->on('categories')
+->nullOnDelete()
+->cascadeOnUpdate();
+
+$table->foreign('discount_id')
+->references('id')
+->on('discounts')
+->nullOnDelete()
+->cascadeOnUpdate();
 ```
 
 ## Create Tag Model and Migration
 - ### Command For Create Tag Model and Migration
 ```bash
-
+php artisan make:model -m Tag
 ```
-- ### Tag Contact Migration
+- ### Update Tag Migration
 ```bash
-
+$table->id();
+$table->string('label',100);
+$table->unsignedTinyInteger('status')->default(1);
+$table->timestamps();
 ```
 
 ## Create Product Model and Migration
 - ### Command For Create Product Model and Migration
 ```bash
-
+php artisan make:model -m Product
 ```
 - ### Update Product Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('discount_id')->nullable();
+$table->unsignedBigInteger('category_id');
+$table->string('label',100);
+$table->string('description',10000);
+$table->decimal('price',20,2);
+$table->integer('count')->unsigned()->default(0);
+$table->unsignedTinyInteger('status')->default(1);
+$table->timestamps();
 
+$table->foreign('discount_id')
+->references('id')
+->on('discounts')
+->nullOnDelete()
+->cascadeOnUpdate();
+
+$table->foreign('category_id')
+->references('id')
+->on('categories')
+->cascadeOnDelete()
+->cascadeOnUpdate();
 ```
 
 ## Create ProductImage Model and Migration
 - ### Command For Create ProductImage Model and Migration
 ```bash
-
+php artisan make:model -m ProductImage
 ```
 - ### Update ProductImage Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('product_id');
+$table->string('path');
+$table->timestamps();
 
+$table->foreign('product_id')
+->references('id')
+->on('products')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create Comment Model and Migration
 - ### Command For Create Comment Model and Migration
 ```bash
-
+php artisan make:model -m Comment
 ```
 - ### Update Comment Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('user_id');
+$table->unsignedBigInteger('product_id');
+$table->string('description',10000);
+$table->unsignedTinyInteger('status')->default(0);
+$table->boolean('state')->default(0);
+$table->timestamps();
 
+$table->foreign('user_id')
+->references('id')
+->on('users')
+->onDelete('cascade')
+->cascadeOnUpdate();
+
+$table->foreign('product_id')
+->references('id')
+->on('products')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create Region Model and Migration
 - ### Command For Create Region Model and Migration
 ```bash
-
+php artisan make:model -m Region
 ```
 - ### Update Region Migration
 ```bash
-
+$table->id();
+$table->string('label',100);
+$table->unsignedTinyInteger('status')->default(1);
+$table->timestamps();
 ```
 
 ## Create City Model and Migration
 - ### Command For Create City Model and Migration
 ```bash
-
+php artisan make:model -m City
 ```
 - ### Update City Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('region_id');
+$table->string('label',100);
+$table->unsignedTinyInteger('status')->default(1);
+$table->timestamps();
 
+$table->foreign('region_id')
+->references('id')
+->on('regions')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create Address Model and Migration
 - ### Command For Create Address Model and Migration
 ```bash
-
+php artisan make:model -m Address
 ```
 - ### Update Address Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('city_id');
+$table->unsignedBigInteger('user_id');
+$table->string('detail',1000);
+$table->unsignedTinyInteger('status')->default(1);
+$table->timestamps();
 
+$table->foreign('city_id')
+->references('id')
+->on('cities')
+->onDelete('cascade')
+->cascadeOnUpdate();
+
+$table->foreign('user_id')
+->references('id')
+->on('users')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create Order Model and Migration
 - ### Command For Create Order Model and Migration
 ```bash
-
+php artisan make:model -m Order
 ```
 - ### Update Order Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('user_id');
+$table->unsignedBigInteger('address_id');
+$table->unsignedBigInteger('discount_id')->nullable();
+$table->decimal('total_price',20,2);
+$table->decimal('pay_price',20,2);
+$table->unsignedTinyInteger('status')->default(0);
+$table->timestamps();
 
+$table->foreign('user_id')
+->references('id')
+->on('users')
+->cascadeOnDelete()
+->cascadeOnUpdate();
+
+$table->foreign('address_id')
+->references('id')
+->on('addresses')
+->cascadeOnDelete()
+->cascadeOnUpdate();
+
+$table->foreign('discount_id')
+->references('id')
+->on('discounts')
+->nullOnDelete()
+->cascadeOnUpdate();
 ```
 
 ## Create Transaction Model and Migration
 - ### Command For Create Transaction Model and Migration
 ```bash
-
+php artisan make:model -m Transaction
 ```
 - ### Update Transaction Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('order_id');
+$table->decimal('amount',22,2);
+$table->unsignedTinyInteger('status')->default(1);
+$table->unsignedBigInteger('IDPay_track_id')->nullable();
+$table->string('IDPay_id')->nullable();
+$table->string('card_no')->nullable();
+$table->string('pay_date')->nullable();
+$table->string('verify_date')->nullable();
+$table->timestamps();
+$table->softDeletes();
 
+$table->foreign('order_id')
+->references('id')
+->on('orders')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create OrderListItems Model and Migration
 - ### Command For Create OrderListItems Model and Migration
 ```bash
-
+php artisan make:model -m OrderListItems
 ```
 - ### Update OrderListItems Migration
 ```bash
+$table->id();
+$table->unsignedBigInteger('product_id');
+$table->unsignedBigInteger('order_id');
+$table->decimal('price',20,2);
+$table->decimal('pay_price',20,2);
+$table->unsignedTinyInteger('count');
+$table->unsignedTinyInteger('status')->default(0);
+$table->timestamps();
 
+$table->foreign('product_id')
+->references('id')
+->on('products')
+->onDelete('cascade')
+->cascadeOnUpdate();
+
+$table->foreign('order_id')
+->references('id')
+->on('orders')
+->onDelete('cascade')
+->cascadeOnUpdate();
 ```
 
 ## Create product_tag Model and Migration
 - ### Command For Create product_tag Model and Migration
 ```bash
-
+php artisan make:model -m product_tag
 ```
 - ### Update product_tag Migration
 ```bash
+$table->unsignedBigInteger('tag_id');
+$table->unsignedBigInteger('product_id');
 
+$table->foreign('tag_id')
+    ->references('id')
+    ->on('tags')
+    ->cascadeOnDelete()
+    ->cascadeOnUpdate();
+
+$table->foreign('product_id')
+    ->references('id')
+    ->on('products')
+    ->cascadeOnDelete()
+    ->cascadeOnUpdate();
+
+$table->primary(['tag_id','product_id']);
 ```
 
 ## Submit Command In Laravel
