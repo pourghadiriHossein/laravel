@@ -22,7 +22,7 @@
 - ### Category
 | id  | parent_id | discount_id | label | status |
 | - | - | - | - | - |
-| int-pk  | str | decimal-20-2-NA | decimal-20-2-NA | str-NA | int |
+| int-pk | int-fk | int-fk | str | int |
 
 - ### Tag
 | id  | label | status |
