@@ -33,7 +33,7 @@
 - ### Product
 | id  | discount_id | category_id | label | description | price | count | status |
 | - | - | - | - | - | - | - | - |
-| int-pk  | int-fk-NA | int-fk | str-100 | str-10000 | decimal-20-2 | int-UNS | str |
+| int-pk  | int-fk-NA | int-fk | str-100 | str-10000 | decimal-20-2 | int-UNS | int |
 
 
 - ### ProductImage
@@ -448,7 +448,7 @@ $table->foreign('order_id')
 ## Create product_tag Model and Migration
 - ### Command For Create product_tag Model and Migration
 ```bash
-php artisan make:model -m product_tag
+php artisan make:migration create_product_tag_table
 ```
 - ### Update product_tag Migration
 ```bash
