@@ -231,125 +231,125 @@ $productImages = [
     //MEN IMAGE
     [
         'product_id' => 1,
-        'path' => 'public/assets/images/shop/jacket2-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/jacket2-1-700x893.jpg'
     ],
     [
         'product_id' => 1,
-        'path' => 'public/assets/images/shop/jacket2-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/jacket2-2-700x893.jpg'
     ],
     [
         'product_id' => 2,
-        'path' => 'public/assets/images/shop/jacket1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/jacket1-1-700x893.jpg'
     ],
     [
         'product_id' => 2,
-        'path' => 'public/assets/images/shop/jacket1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/jacket1-2-700x893.jpg'
     ],
     [
         'product_id' => 3,
-        'path' => 'public/assets/images/shop/hoodie1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/hoodie1-1-700x893.jpg'
     ],
     [
         'product_id' => 3,
-        'path' => 'public/assets/images/shop/hoodie1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/hoodie1-2-700x893.jpg'
     ],
     [
         'product_id' => 4,
-        'path' => 'public/assets/images/shop/shirt1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/shirt1-1-700x893.jpg'
     ],
     [
         'product_id' => 4,
-        'path' => 'public/assets/images/shop/shirt1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/shirt1-2-700x893.jpg'
     ],
     [
         'product_id' => 5,
-        'path' => 'public/assets/images/shop/shirt2-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/shirt2-1-700x893.jpg'
     ],
     [
         'product_id' => 5,
-        'path' => 'public/assets/images/shop/shirt2-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/shirt2-2-700x893.jpg'
     ],
     [
         'product_id' => 6,
-        'path' => 'public/assets/images/shop/hoodie2-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/hoodie2-1-700x893.jpg'
     ],
     [
         'product_id' => 6,
-        'path' => 'public/assets/images/shop/hoodie2-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/hoodie2-2-700x893.jpg'
     ],
     //WOMEN IMAGE
     [
         'product_id' => 7,
-        'path' => 'public/assets/images/shop/skirt1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/skirt1-1-700x893.jpg'
     ],
     [
         'product_id' => 7,
-        'path' => 'public/assets/images/shop/skirt1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/skirt1-2-700x893.jpg'
     ],
     [
         'product_id' => 8,
-        'path' => 'public/assets/images/shop/skirt4-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/skirt4-1-700x893.jpg'
     ],
     [
         'product_id' => 8,
-        'path' => 'public/assets/images/shop/skirt4-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/skirt4-2-700x893.jpg'
     ],
     [
         'product_id' => 9,
-        'path' => 'public/assets/images/shop/jeans1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/jeans1-1-700x893.jpg'
     ],
     [
         'product_id' => 9,
-        'path' => 'public/assets/images/shop/jeans1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/jeans1-2-700x893.jpg'
     ],
     [
         'product_id' => 10,
-        'path' => 'public/assets/images/shop/top1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/top1-1-700x893.jpg'
     ],
     [
         'product_id' => 10,
-        'path' => 'public/assets/images/shop/top1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/top1-2-700x893.jpg'
     ],
     [
         'product_id' => 11,
-        'path' => 'public/assets/images/shop/top2-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/top2-1-700x893.jpg'
     ],
     [
         'product_id' => 11,
-        'path' => 'public/assets/images/shop/top2-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/top2-2-700x893.jpg'
     ],
     [
         'product_id' => 12,
-        'path' => 'public/assets/images/shop/dress1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/dress1-1-700x893.jpg'
     ],
     [
         'product_id' => 12,
-        'path' => 'public/assets/images/shop/dress1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/dress1-2-700x893.jpg'
     ],
     //BAG IMAGE
     [
         'product_id' => 13,
-        'path' => 'public/assets/images/shop/bag1-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/bag1-1-700x893.jpg'
     ],
     [
         'product_id' => 13,
-        'path' => 'public/assets/images/shop/bag1-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/bag1-2-700x893.jpg'
     ],
     [
         'product_id' => 14,
-        'path' => 'public/assets/images/shop/bag3-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/bag3-1-700x893.jpg'
     ],
     [
         'product_id' => 14,
-        'path' => 'public/assets/images/shop/bag3-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/bag3-2-700x893.jpg'
     ],
     [
         'product_id' => 15,
-        'path' => 'public/assets/images/shop/bag4-1-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/bag4-1-700x893.jpg'
     ],
     [
         'product_id' => 15,
-        'path' => 'public/assets/images/shop/bag4-2-700x893.jpg'
+        'path' => 'public-side-files/IMAGE/product/bag4-2-700x893.jpg'
     ],
 ];
 ProductImage::insert($productImages);
