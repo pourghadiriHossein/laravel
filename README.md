@@ -1,4 +1,4 @@
-# CRUD Mechanism For Categories In lravel
+# CRUD Mechanism For Categories In laravel
 
 ## Create CategoryAction file then Write Starter Structure
 ```bash
