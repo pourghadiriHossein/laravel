@@ -1,12 +1,12 @@
-# CRUD Mechanism For Categories In lravel
+# CRUD Mechanism For Tags In lravel
 
-## Create CategoryAction file then Write Starter Structure
+## Create TagAction file then Write Starter Structure
 ```bash
 <?php
 
 namespace App\Actions;
 
-class CategoryAction {
+class TagAction {
     //Query Part
 
     //Tools Part
@@ -17,121 +17,63 @@ class CategoryAction {
 
 }
 ```
-## Create DiscountAction file then Write Starter Structure
+
+## Add two query in TagAction
+- ### get all tags query
 ```bash
-<?php
-
-namespace App\Actions;
-
-class DiscountAction {
-    //Query Part
-
-    //Tools Part
-
-    //Edit Part
-
-    //necessary function
-
+public static function getAllTags(){
+    $tags = Tag::all();
+    return $tags;
 }
 ```
-## Add two query in CategoryAction
-- ### get all categories query
+- ### get tag query
 ```bash
-public static function getAllCategories(){
-    $categories = Category::all();
-    return $categories;
-}
-```
-- ### get category query
-```bash
-public static function getCategory($category_id){
-    $category = Category::find($category_id);
-    return $category;
-}
-```
-## Add one query in DiscountAction
-- ### get all discounts
-```bash
-public static function getAllDiscounts(){
-    $discounts = Discount::all();
-    return $discounts;
+public static function getTag($tag_id){
+    $tag = Tag::find($tag_id);
+    return $tag;
 }
 ```
 
-## in PrivateController, Update visitCategory function
+## in PrivateController, Update visitTag function
 ```bash
-public function visitCategory() {
-    $categories = CategoryAction::getAllCategories();
-    return view('private.category.visitCategory', compact('categories'));
+public function visitTag() {
+    $tags = TagAction::getAllTags();
+    return view('private.tag.visitTag', compact('tags'));
 }
 ```
-## Update tbody tag  in visitCategory.blade.php File
+## Update tbody tag  in visitTag.blade.php File
 ```bash
-@foreach ($categories as $category)
+@foreach ($tags as $tag)
 <tr>
-    <td>{{ $category->id }}</td>
+    <td>{{$tag->id}}</td>
+    <td>{{$tag->label}}</td>
     <td>
-        @if (!$category->parent_id)
-            دسته اصلی
-        @else
-            {{ $category->parent->label }}
-        @endif
-    </td>
-    <td>{{ $category->label }}</td>
-    <td>
-        @if ($category->discount_id)
-            {{ $category->discount->label }}
-        @else
-            تخفیف ندارد
-        @endif
-    </td>
-    <td>
-        @if ($category->status)
-        <p class="label label-success" style="width: 250px">فعال</p>
-        @else
+        @if ($tag->status == 0)
         <p class="label label-danger" style="width: 250px">غیر فعال</p>
+        @else
+        <p class="label label-success" style="width: 250px">فعال</p>
         @endif
     </td>
     <td>
-        <a class="label label-warning" href="{{ route('updateCategory',$category->id) }}">ویرایش</a>
-        <a class="label label-info" href="{{ route('addParentCategory',$category->id) }}">افزودن +</a>
+        <a class="label label-warning" href="{{ route('updateTag',$tag) }}">ویرایش</a>
     </td>
 </tr>
 @endforeach
 ```
-## in PrivateController, Update addCategory function
-```bash
-public function addCategory() {
-    $discounts = DiscountAction::getAllDiscounts();
-    return view('private.category.addCategory', compact('discounts'));
-}
-```
 ## Update form tag in addCategory.blade.php File
 ```bash
-<form class="form-horizontal" action="{{ route('postAddCategory') }}" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="{{ route('postAddTag') }}" method="post" enctype="multipart/form-data">
     @csrf
     <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
-        <legend></legend>
         <div class="form-group">
-            <label class="col-lg-2 control-label">نام دسته</label>
+            <label class="col-lg-2 control-label">نام تگ</label>
             <div class="col-lg-10">
-                <input type="text" name="label" class="form-control" placeholder="نام دسته">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">نوع تخفیف</label>
-            <div class="col-lg-10">
-                <select name="discount_id" class="form-control" style="height: 40px">
-                    <option value="">بدون تخفیف</option>
-                    @foreach ($discounts as $discount)
-                    <option value="{{$discount->id}}">{{$discount->label}}</option>
-                    @endforeach
-                </select>
+                <input value="{{old('label')}}" type="text" name="label" class="form-control" placeholder="نام تگ">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-lg-2 control-label">وضعیت دسته</label>
+            <label class="col-lg-2 control-label">وضعیت تگ</label>
             <div class="col-lg-10">
                 <select name="status" class="form-control" style="height: 40px">
                     <option value="0" selected>غیر فعال</option>
@@ -139,184 +81,112 @@ public function addCategory() {
                 </select>
             </div>
         </div>
-
     </fieldset>
     <input type="submit" class="finish btn btn-danger" value="تایید"/>
 </form>
 ```
-## in CategoryAction, Write addCategory static function
+## in CategoryAction, Write addTag static function
 ```bash
-public static function addCategory($request)
-{
-    $newCategory = new Category();
-    $newCategory->label = $request->input('label');
-    $newCategory->parent_id = null;
-    $newCategory->discount_id = $request->input('discount_id');
-    $newCategory->status = $request->input('status');
-    $newCategory->save();
+public static function addTag($request){
+    Tag::create($request->all());
     return back();
 }
 ```
+## Create AddTagRequest
+- ### Command
+```bash
+php artisan make:request AddTagRequest
+```
+- ### Update AddTagRequest File
+```bash
+public function authorize()
+{
+    return true;
+}
+```
+```bash
+public function rules()
+{
+    return [
+        'label' => 'required|min:3|max:100',
+        'status' => 'digits_between:0,1',
+    ];
+}
+```
 
-## in PrivateController, Update postAddCategory function
+## in PrivateController, Update postAddTag function
 ```bash
-public function postAddCategory(Request $request) {
-    CategoryAction::addCategory($request);
-    return redirect()->route('visitCategory');
+public function postAddTag(AddTagRequest $request) {
+    TagAction::addTag($request);
+    return redirect(route('visitTag'));
 }
 ```
-## in PrivateController, Update addParentCategory function
+## in PrivateController, Update updateTag function
 ```bash
-public function addParentCategory($parent_id) {
-    $parent = CategoryAction::getCategory($parent_id);
-    $discounts = DiscountAction::getAllDiscounts();
-    return view('private.category.addParentCategory', compact('parent', 'discounts'));
+public function updateTag(Tag $tag) {
+    return view('private.tag.updateTag', compact('tag'));
 }
 ```
-## Update form tag in addParentCategory.blade.php File  
+## Update form tag in updateTag.blade.php File  
 ```bash
-<form class="form-horizontal" action="{{ route('postAddParentCategory', $parent->id) }}" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="{{ route('postUpdateTag',$tag->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
         <div class="form-group">
-            <label class="col-lg-2 control-label">نام دسته والد</label>
+            <label class="col-lg-2 control-label">نام تگ</label>
             <div class="col-lg-10">
-                <input disabled type="text" name="firstName" class="form-control" placeholder="والد" value="{{ $parent->label }}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">کد تخفیف</label>
-            <div class="col-lg-10">
-                <select name="discount_id" class="form-control" style="height: 40px">
-                    <option value="">بدون تخفیف</option>
-                    @foreach ($discounts as $discount)
-                    <option value="{{$discount->id}}">{{$discount->label}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">نام دسته</label>
-            <div class="col-lg-10">
-                <input type="text" name="label" class="form-control" placeholder="نام دسته">
+                <input value="{{$tag->label}}" type="text" name="label" class="form-control" placeholder="نام تگ">
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-lg-2 control-label">وضعیت دسته</label>
+            <label class="col-lg-2 control-label">وضعیت تگ</label>
             <div class="col-lg-10">
                 <select name="status" class="form-control" style="height: 40px">
-                    <option value="0" selected>غیر فعال</option>
-                    <option value="1">فعال</option>
+                    <option value="0" @if ($tag->status == 0) selected @endif>غیر فعال</option>
+                    <option value="1" @if ($tag->status == 1) selected @endif>فعال</option>
                 </select>
             </div>
         </div>
-
     </fieldset>
     <input type="submit" class="finish btn btn-danger" value="تایید"/>
 </form>
 ```
-## in CategoryAction, Write addParentCategory static function
+## in CategoryAction, Write updateTag static function
 ```bash
-public static function addParentCategory($request, $parent_id)
-{
-    $newCategory = new Category();
-    $newCategory->label = $request->input('label');
-    $newCategory->parent_id = $parent_id;
-    $newCategory->discount_id = $request->input('discount_id');
-    $newCategory->status = $request->input('status');
-    $newCategory->save();
+public static function updateTag($request, $tag_id){
+    $updateTag = self::getTag($tag_id);
+    $updateTag->label = $request->input('label');
+    $updateTag->status = $request->input('status');
+    $updateTag->update();
     return back();
 }
 ```
-
-## in PrivateController, Update postAddParentCategory function
+## Create UpdateTagRequest
+- ### Command
 ```bash
-public function postAddParentCategory(Request $request, $parent_id) {
-    CategoryAction::addParentCategory($request, $parent_id);
-    return redirect(route('visitCategory'));
-}
+php artisan make:request UpdateTagRequest
 ```
-## in PrivateController, Update updateCategory function
+- ### Update UpdateTagRequest File
 ```bash
-public function updateCategory($category_id) {
-    $myCategory = CategoryAction::getCategory($category_id);
-    $discounts = DiscountAction::getAllDiscounts();
-    $categories = CategoryAction::getAllCategories();
-    return view('private.category.updateCategory', compact('myCategory', 'discounts', 'categories'));
-}
-```
-## Update form tag in updateCategory.blade.php File  
-```bash
-<form class="form-horizontal" action="{{ route('postUpdateCategory', $myCategory->id) }}" method="post" enctype="multipart/form-data">
-    @csrf
-    <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
-        <div class="form-group">
-            <label class="col-lg-2 control-label">نام دسته والد</label>
-            <div class="col-lg-10">
-                <select name="parent_id" class="form-control" style="height: 40px">
-                    <option value="">دسته اصلی</option>
-                    @foreach ($categories as $category)
-                    <option value="{{$category->id}}"
-                        @if ($myCategory->parent_id == $category->id) selected @endif>
-                        {{$category->label}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">کد تخفیف</label>
-            <div class="col-lg-10">
-                <select name="discount_id" class="form-control" style="height: 40px">
-                    <option value="">بدون تخفیف</option>
-                    @foreach ($discounts as $discount)
-                    <option value="{{$discount->id}}"
-                        @if ($discount->id == $myCategory->discount_id) selected @endif
-                        >{{$discount->label}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 control-label">نام دسته</label>
-            <div class="col-lg-10">
-                <input value="{{$myCategory->label}}" type="text" name="label" class="form-control" placeholder="نام دسته">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-lg-2 control-label">وضعیت دسته</label>
-            <div class="col-lg-10">
-                <select name="status" class="form-control" style="height: 40px">
-                    <option value="0" @if ($myCategory->status == 0) selected @endif>غیر فعال</option>
-                    <option value="1" @if ($myCategory->status == 1) selected @endif>فعال</option>
-                </select>
-            </div>
-        </div>
-
-    </fieldset>
-    <input type="submit" class="finish btn btn-danger" value="تایید"/>
-</form>
-```
-## in CategoryAction, Write updateCategory static function
-```bash
-public static function updateCategory($request, $category_id)
+public function authorize()
 {
-    $updateCategory = self::getCategory($category_id);
-    $updateCategory->label = $request->input('label');
-    $updateCategory->parent_id = $request->input('parent_id');
-    $updateCategory->discount_id = $request->input('discount_id');
-    $updateCategory->status = $request->input('status');
-    $updateCategory->save();
-    return back();
+    return true;
 }
 ```
-
-## in PrivateController, Update postUpdateCategory function
 ```bash
-public function postUpdateCategory(Request $request, $category_id) {
-    CategoryAction::updateCategory($request, $category_id);
-    return redirect(route('visitCategory'));
+public function rules()
+{
+    return [
+        'label' => 'required|min:3|max:100',
+        'status' => 'digits_between:0,1',
+    ];
+}
+## in PrivateController, Update postUpdateTag function
+```bash
+public function postUpdateTag(UpdateTagRequest $request, $tag_id) {
+    TagAction::updateTag($request, $tag_id);
+    return redirect(route('visitTag'));
 }
 ```
 

@@ -6,13 +6,17 @@ use App\Actions\CategoryAction;
 use App\Actions\DiscountAction;
 use App\Actions\PermissionAction;
 use App\Actions\RoleAction;
+use App\Actions\TagAction;
 use App\Actions\UserAction;
 use App\Http\Requests\AddPermissionRequest;
 use App\Http\Requests\AddRoleRequest;
+use App\Http\Requests\AddTagRequest;
 use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Requests\UpdateTagRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -156,22 +160,25 @@ class PrivateController extends Controller
     }
     //tag
     public function visitTag() {
-        return view('private.tag.visitTag');
+        $tags = TagAction::getAllTags();
+        return view('private.tag.visitTag', compact('tags'));
     }
 
     public function addTag() {
         return view('private.tag.addTag');
     }
 
-    public function postAddTag() {
+    public function postAddTag(AddTagRequest $request) {
+        TagAction::addTag($request);
         return redirect(route('visitTag'));
     }
 
-    public function updateTag() {
-        return view('private.tag.updateTag');
+    public function updateTag(Tag $tag) {
+        return view('private.tag.updateTag', compact('tag'));
     }
 
-    public function postUpdateTag() {
+    public function postUpdateTag(UpdateTagRequest $request, $tag_id) {
+        TagAction::updateTag($request, $tag_id);
         return redirect(route('visitTag'));
     }
     //discount

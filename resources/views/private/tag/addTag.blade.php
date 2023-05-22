@@ -17,7 +17,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نام تگ</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="label" class="form-control" placeholder="نام تگ">
+                                            <input value="{{old('label')}}" type="text" name="label" class="form-control" placeholder="نام تگ">
                                         </div>
                                     </div>
 
