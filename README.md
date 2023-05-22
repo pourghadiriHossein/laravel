@@ -1,4 +1,4 @@
-# Show User Detail on Private Side and Update User Mechanism In lravel
+# Show User Detail on Private Side and Update User Mechanism In laravel
 
 ## Update User Update Controller
 ```bash
