@@ -1,4 +1,4 @@
-# CRUD Mechanism For Tags In lravel
+# CRUD Mechanism For Tags In laravel
 
 ## Create TagAction file then Write Starter Structure
 ```bash
@@ -182,6 +182,7 @@ public function rules()
         'status' => 'digits_between:0,1',
     ];
 }
+```
 ## in PrivateController, Update postUpdateTag function
 ```bash
 public function postUpdateTag(UpdateTagRequest $request, $tag_id) {
