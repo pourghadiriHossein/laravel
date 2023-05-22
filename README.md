@@ -1,4 +1,4 @@
-# CRUD Mechanism For Permissions and Roles In lravel
+# CRUD Mechanism For Permissions and Roles In laravel
 
 ## Create PermissionAction file then Write Starter Structure
 ```bash
