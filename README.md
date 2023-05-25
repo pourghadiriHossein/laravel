@@ -1,4 +1,4 @@
-# CRUD Mechanism For Comment In laravel
+# CRUD Mechanism For Region and City In laravel
 
 ## Create RCAction file then Write Starter Structure
 ```bash
