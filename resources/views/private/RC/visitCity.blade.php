@@ -66,26 +66,22 @@
                             </tr>
                             </tfoot>
                             <tbody>
+                                @foreach ($cities as $city)
                                 <tr>
-                                    <td>1</td>
-                                    <td>رشت</td>
+                                    <td>{{ $city->id }}</td>
+                                    <td>{{ $city->label }}</td>
                                     <td>
-                                        <p class="label label-warning">غیر فعال</p>
-                                    </td>
-                                    <td>
-                                        <a class="label label-warning" href="{{ route('updateCity',1) }}">ویرایش</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>رشت</td>
-                                    <td>
+                                        @if ($city->status == 0)
+                                        <p class="label label-danger">غیر فعال</p>
+                                        @else
                                         <p class="label label-success">فعال</p>
+                                        @endif
                                     </td>
                                     <td>
-                                        <a class="label label-warning" href="{{ route('updateCity',2) }}">ویرایش</a>
+                                        <a class="label label-warning" href="{{ route('updateCity',$city) }}">ویرایش</a>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

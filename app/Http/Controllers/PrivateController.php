@@ -7,25 +7,32 @@ use App\Actions\CommentAction;
 use App\Actions\DiscountAction;
 use App\Actions\PermissionAction;
 use App\Actions\ProductAction;
+use App\Actions\RCAction;
 use App\Actions\RoleAction;
 use App\Actions\TagAction;
 use App\Actions\UserAction;
+use App\Http\Requests\AddCityRequest;
 use App\Http\Requests\AddDiscountRequest;
 use App\Http\Requests\AddPermissionRequest;
 use App\Http\Requests\AddProductRequest;
+use App\Http\Requests\AddRegionRequest;
 use App\Http\Requests\AddRoleRequest;
 use App\Http\Requests\AddTagRequest;
 use App\Http\Requests\AddUserRequest;
+use App\Http\Requests\UpdateCityRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Requests\UpdateDiscountRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\UpdateRegionRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\City;
 use App\Models\Comment;
 use App\Models\Discount;
 use App\Models\Product;
+use App\Models\Region;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -267,42 +274,48 @@ class PrivateController extends Controller
     //region & city
     //region
     public function visitRegion() {
-        return view('private.RC.visitRegion');
+        $regions = RCAction::getAllRegions();
+        return view('private.RC.visitRegion', compact('regions'));
     }
 
     public function addRegion() {
         return view('private.RC.addRegion');
     }
 
-    public function postAddRegion() {
+    public function postAddRegion(AddRegionRequest $request) {
+        RCAction::addRegion($request);
         return redirect(route('visitRegion'));
     }
 
-    public function updateRegion() {
-        return view('private.RC.updateRegion');
+    public function updateRegion(Region $region) {
+        return view('private.RC.updateRegion', compact('region'));
     }
 
-    public function postUpdateRegion() {
+    public function postUpdateRegion(UpdateRegionRequest $request, $region_id) {
+        RCAction::updateRegion($request, $region_id);
         return redirect(route('visitRegion'));
     }
     //city
     public function visitCity() {
-        return view('private.RC.visitCity');
+        $cities = RCAction::getAllCity();
+        return view('private.RC.visitCity', compact('cities'));
     }
 
-    public function addCity() {
-        return view('private.RC.addCity');
+    public function addCity($region_id) {
+        return view('private.RC.addCity', compact('region_id'));
     }
 
-    public function postAddCity() {
+    public function postAddCity(AddCityRequest $request, $region_id) {
+        RCAction::addCity($request, $region_id);
         return redirect(route('visitCity'));
     }
 
-    public function updateCity() {
-        return view('private.RC.updateCity');
+    public function updateCity(City $city) {
+        return view('private.RC.updateCity', compact('city'));
     }
 
-    public function postUpdateCity() {
+    public function postUpdateCity(UpdateCityRequest $request, $city_id) {
+        RCAction::updateCity($request, $city_id);
         return redirect(route('visitCity'));
     }
     //address

@@ -11,13 +11,13 @@
                         <div class="panel-body">
                             @include('include.showError')
                             @include('include.validationError')
-                            <form class="form-horizontal" action="{{ route('postAddCity',1) }}"method="post" enctype="multipart/form-data">
+                            <form class="form-horizontal" action="{{ route('postAddCity',$region_id) }}"method="post" enctype="multipart/form-data">
                                 @csrf
                                 <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نام شهر</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="label" class="form-control" placeholder="نام شهر">
+                                            <input value="{{ old('label') }}" type="text" name="label" class="form-control" placeholder="نام شهر">
                                         </div>
                                     </div>
 

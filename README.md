@@ -1,12 +1,12 @@
 # CRUD Mechanism For Comment In laravel
 
-## Create CommentAction file then Write Starter Structure
+## Create RCAction file then Write Starter Structure
 ```bash
 <?php
 
 namespace App\Actions;
 
-class CommentAction {
+class RCAction {
     //Query Part
 
     //Tools Part
@@ -17,89 +17,81 @@ class CommentAction {
 
 }
 ```
-## Add two query in ProductAction
-- ### get all comments query
+## Add two query in RCAction
+- ### get all regions query
 ```bash
-public static function getAllComment(){
-    $comments = Comment::all();
-    return $comments;
+public static function getAllRegions(){
+    $regions = Region::all();
+    return $regions;
 }
 ```
-- ### get comment query
+- ### get region query
 ```bash
-public static function getComment($comment_id){
-    $comment = Comment::find($comment_id);
-    return $comment;
+public static function getRegion($region_id){
+    $region = Region::find($region_id);
+    return $region;
+}
+```
+- ### get all cities query
+```bash
+public static function getAllCity(){
+    $cities = City::all();
+    return $cities;
+}
+```
+- ### get city query
+```bash
+public static function getCity($city_id){
+    $city = City::find($city_id);
+    return $city;
 }
 ```
 
-## in PrivateController, Update visitComment function
+## in PrivateController, Update visitRegion function
 ```bash
-public function visitComment() {
-    $comments = CommentAction::getAllComment();
-    return view('private.comment.visitComment', compact('comments'));
+public function visitRegion() {
+    $regions = RCAction::getAllRegions();
+    return view('private.RC.visitRegion', compact('regions'));
 }
 ```
-## Update tbody tag  in visitComment.blade.php File
+## Update tbody tag  in visitRegion.blade.php File
 ```bash
-@foreach ($comments as $comment)
+@foreach ($regions as $region)
 <tr>
-    <td>{{ $comment->id }}</td>
-    <td>{{ $comment->user->name }}</td>
-    <td>{{ $comment->product->label }}</td>
-    <td>{{ Str::substr($comment->description, 0, 8) }}...</td>
+    <td>{{ $region->id }}</td>
+    <td>{{ $region->label }}</td>
     <td>
-        @if ($comment->status == 0)
+        @if ($region->status == 0)
         <p class="label label-danger">غیر فعال</p>
         @else
         <p class="label label-success">فعال</p>
         @endif
-        @if ($comment->state == 0)
-        <p class="label label-danger">مشاهده نشده</p>
-        @else
-        <p class="label label-success">مشاهده شده</p>
-        @endif
     </td>
-    <td><a class="label label-warning" href="{{ route('updateComment',$comment) }}">ویرایش</a></td>
+    <td>
+        <a class="label label-warning" href="{{ route('updateRegion',$region) }}">ویرایش</a>
+        <a class="label label-info" href="{{ route('addCity',$region->id) }}">افزودن شهر +</a>
+    </td>
 </tr>
 @endforeach
 ```
-## in CommentAction, Write checkState static function
+## Update form tag in addRegion.blade.php File
 ```bash
-public static function checkState(Comment $comment)
-{
-    if($comment->state == 0)
-    {
-        $comment->state = 1;
-        $comment->save();
-    }
-    return back();
-}
-```
-## in PrivateController, Update updateComment function
-```bash
-public function updateComment(Comment $comment) {
-    CommentAction::checkState($comment);
-    return view('private.comment.updateComment', compact('comment'));
-}
-```
-## Update form tag in updateComment.blade.php File
-```bash
-<form class="form-horizontal" action="{{ route('postUpdateComment',$comment->id) }}" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="{{ route('postAddRegion') }}" method="post" enctype="multipart/form-data">
     @csrf
     <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
         <div class="form-group">
-            <label class="col-lg-2 control-label">نظر کاربر</label>
+            <label class="col-lg-2 control-label">نام استان</label>
             <div class="col-lg-10">
-                <textarea name="description" class="form-control">{{ $comment->description }}</textarea>
+                <input value="{{ old('label') }}" type="text" name="label" class="form-control" placeholder="نام استان">
             </div>
         </div>
+
         <div class="form-group">
-            <label class="col-lg-2 control-label">وضعیت نظر</label>
+            <label class="col-lg-2 control-label">وضعیت استان</label>
             <div class="col-lg-10">
                 <select name="status" class="form-control" style="height: 40px">
-                    <option value="0" @if($comment->status == 0) selected @endif>غیر فعال</option>
-                    <option value="1" @if($comment->status == 1) selected @endif>فعال</option>
+                    <option value="0" selected>غیر فعال</option>
+                    <option value="1">فعال</option>
                 </select>
             </div>
         </div>
@@ -107,23 +99,23 @@ public function updateComment(Comment $comment) {
     <input type="submit" class="finish btn btn-danger" value="تایید"/>
 </form>
 ```
-## in CommentAction, Write updateComment static function
+## in RCAction, Write addRegion static function
 ```bash
-public static function updateComment($request, $comment_id)
+public static function addRegion($request)
 {
-    $updateComment = self::getComment($comment_id);
-    $updateComment->description = $request->input('description');
-    $updateComment->status = $request->input('status');
-    $updateComment->save();
+    $newRegion = new Region();
+    $newRegion->label = $request->input('label');
+    $newRegion->status = $request->input('status');
+    $newRegion->save();
     return back();
 }
 ```
-## Create UpdateCommentRequest
+## Create AddRegionRequest
 - ### Command
 ```bash
-php artisan make:request UpdateCommentRequest
+php artisan make:request AddRegionRequest
 ```
-- ### Update UpdateCommentRequest File
+- ### Update AddRegionRequest File
 ```bash
 public function authorize()
 {
@@ -134,17 +126,260 @@ public function authorize()
 public function rules()
 {
     return [
-        'description' => 'required|min:3|max:10000',
+        'label' => 'required|min:3|max:100',
         'status' => 'digits_between:0,1',
     ];
 }
 ```
-## in PrivateController, Update postUpdateComment function
+## in PrivateController, Update postAddRegion function
 ```bash
-public function postUpdateComment(UpdateCommentRequest $request, $comment_id) {
-    CommentAction::updateComment($request, $comment_id);
-    return redirect(route('visitComment'));
+public function postAddRegion(AddRegionRequest $request) {
+    RCAction::addRegion($request);
+    return redirect(route('visitRegion'));
 }
 ```
 
+## in PrivateController, Update updateRegion function
+```bash
+public function updateRegion(Region $region) {
+    return view('private.RC.updateRegion', compact('region'));
+}
+```
 
+## Update form tag in updateRegion.blade.php File
+```bash
+<form class="form-horizontal" action="{{ route('postUpdateRegion',$region->id) }}" method="post" enctype="multipart/form-data">
+    @csrf
+    <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+        <div class="form-group">
+            <label class="col-lg-2 control-label">نام استان</label>
+            <div class="col-lg-10">
+                <input value="{{ $region->label }}" type="text" name="label" class="form-control" placeholder="نام استان">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">وضعیت استان</label>
+            <div class="col-lg-10">
+                <select name="status" class="form-control" style="height: 40px">
+                    <option value="0" @if($region->status == 0) selected @endif>غیر فعال</option>
+                    <option value="1" @if($region->status == 1) selected @endif>فعال</option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+    <input type="submit" class="finish btn btn-danger" value="تایید"/>
+</form>
+```
+## in RCAction, Write updateRegion static function
+```bash
+public static function updateRegion($request, $region_id)
+{
+    $updateRegion = self::getRegion($region_id);
+    $updateRegion->label = $request->input('label');
+    $updateRegion->status = $request->input('status');
+    $updateRegion->save();
+    return back();
+}
+```
+## Create UpdateRegionRequest
+- ### Command
+```bash
+php artisan make:request UpdateRegionRequest
+```
+- ### Update UpdateRegionRequest File
+```bash
+public function authorize()
+{
+    return true;
+}
+```
+```bash
+public function rules()
+{
+    return [
+        'label' => 'required|min:3|max:100',
+        'status' => 'digits_between:0,1',
+    ];
+}
+```
+## in PrivateController, Update postUpdateRegion function
+```bash
+public function postUpdateRegion(UpdateRegionRequest $request, $region_id) {
+    RCAction::updateRegion($request, $region_id);
+    return redirect(route('visitRegion'));
+}
+```
+################
+
+## in PrivateController, Update visitCity function
+```bash
+public function visitCity() {
+    $cities = RCAction::getAllCity();
+    return view('private.RC.visitCity', compact('cities'));
+}
+```
+## Update tbody tag  in visitCity.blade.php File
+```bash
+@foreach ($cities as $city)
+<tr>
+    <td>{{ $city->id }}</td>
+    <td>{{ $city->label }}</td>
+    <td>
+        @if ($city->status == 0)
+        <p class="label label-danger">غیر فعال</p>
+        @else
+        <p class="label label-success">فعال</p>
+        @endif
+    </td>
+    <td>
+        <a class="label label-warning" href="{{ route('updateCity',$city) }}">ویرایش</a>
+    </td>
+</tr>
+@endforeach
+```
+## in PrivateController, Update addCity function
+```bash
+public function addCity($region_id) {
+    return view('private.RC.addCity', compact('region_id'));
+}
+```
+## Update form tag in addCity.blade.php File
+```bash
+<form class="form-horizontal" action="{{ route('postAddCity',$region_id) }}"method="post" enctype="multipart/form-data">
+    @csrf
+    <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+        <div class="form-group">
+            <label class="col-lg-2 control-label">نام شهر</label>
+            <div class="col-lg-10">
+                <input value="{{ old('label') }}" type="text" name="label" class="form-control" placeholder="نام شهر">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">وضعیت شهر</label>
+            <div class="col-lg-10">
+                <select name="status" class="form-control" style="height: 40px">
+                    <option value="0" selected>غیر فعال</option>
+                    <option value="1">فعال</option>
+                </select>
+            </div>
+        </div>
+
+    </fieldset>
+    <input type="submit" class="finish btn btn-danger" value="تایید"/>
+</form>
+```
+## in RCAction, Write addCity static function
+```bash
+public static function addCity($request, $region_id)
+{
+    $newCity = new City();
+    $newCity->region_id = $region_id;
+    $newCity->label = $request->input('label');
+    $newCity->status = $request->input('status');
+    $newCity->save();
+    return back();
+}
+```
+## Create AddCityRequest
+- ### Command
+```bash
+php artisan make:request AddCityRequest
+```
+- ### Update AddCityRequest File
+```bash
+public function authorize()
+{
+    return true;
+}
+```
+```bash
+public function rules()
+{
+    return [
+        'label' => 'required|min:3|max:100',
+        'status' => 'digits_between:0,1',
+    ];
+}
+```
+## in PrivateController, Update postAddCity function
+```bash
+public function postAddCity(AddCityRequest $request, $region_id) {
+    RCAction::addCity($request, $region_id);
+    return redirect(route('visitCity'));
+}
+```
+
+## in PrivateController, Update updateCity function
+```bash
+public function updateCity(City $city) {
+    return view('private.RC.updateCity', compact('city'));
+}
+```
+
+## Update form tag in updateCity.blade.php File
+```bash
+<form class="form-horizontal" action="{{ route('postUpdateCity',$city->id) }}" method="post" enctype="multipart/form-data">
+    @csrf
+    <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
+        <div class="form-group">
+            <label class="col-lg-2 control-label">نام شهر</label>
+            <div class="col-lg-10">
+                <input value="{{ $city->label }}" type="text" name="label" class="form-control" placeholder="نام شهر">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">وضعیت شهر</label>
+            <div class="col-lg-10">
+                <select name="status" class="form-control" style="height: 40px">
+                    <option value="0" @if($city->status == 0) selected @endif>غیر فعال</option>
+                    <option value="1" @if($city->status == 1) selected @endif>فعال</option>
+                </select>
+            </div>
+        </div>
+
+    </fieldset>
+    <input type="submit" class="finish btn btn-danger" value="تایید"/>
+</form>
+```
+## in RCAction, Write updateCity static function
+```bash
+public static function updateCity($request, $city_id)
+{
+    $updateCity = self::getCity($city_id);
+    $updateCity->label = $request->input('label');
+    $updateCity->status = $request->input('status');
+    $updateCity->save();
+    return back();
+}
+```
+## Create UpdateCityRequest
+- ### Command
+```bash
+php artisan make:request UpdateCityRequest
+```
+- ### Update UpdateCityRequest File
+```bash
+public function authorize()
+{
+    return true;
+}
+```
+```bash
+public function rules()
+{
+    return [
+        'label' => 'required|min:3|max:100',
+        'status' => 'digits_between:0,1',
+    ];
+}
+```
+## in PrivateController, Update postUpdateCity function
+```bash
+public function postUpdateCity(UpdateCityRequest $request, $city_id) {
+    RCAction::updateCity($request, $city_id);
+    return redirect(route('visitCity'));
+}
+```

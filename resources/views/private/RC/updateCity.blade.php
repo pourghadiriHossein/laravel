@@ -11,13 +11,13 @@
                         <div class="panel-body">
                             @include('include.showError')
                             @include('include.validationError')
-                            <form class="form-horizontal" action="{{ route('postUpdateCity',1) }}" method="post" enctype="multipart/form-data">
+                            <form class="form-horizontal" action="{{ route('postUpdateCity',$city->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نام شهر</label>
                                         <div class="col-lg-10">
-                                            <input value="" type="text" name="label" class="form-control" placeholder="نام شهر">
+                                            <input value="{{ $city->label }}" type="text" name="label" class="form-control" placeholder="نام شهر">
                                         </div>
                                     </div>
 
@@ -25,8 +25,8 @@
                                         <label class="col-lg-2 control-label">وضعیت شهر</label>
                                         <div class="col-lg-10">
                                             <select name="status" class="form-control" style="height: 40px">
-                                                <option value="0">غیر فعال</option>
-                                                <option value="1">فعال</option>
+                                                <option value="0" @if($city->status == 0) selected @endif>غیر فعال</option>
+                                                <option value="1" @if($city->status == 1) selected @endif>فعال</option>
                                             </select>
                                         </div>
                                     </div>

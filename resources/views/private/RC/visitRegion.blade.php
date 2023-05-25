@@ -66,28 +66,23 @@
                             </tr>
                             </tfoot>
                             <tbody>
+                                @foreach ($regions as $region)
                                 <tr>
-                                    <td>1</td>
-                                    <td>گیلان</td>
+                                    <td>{{ $region->id }}</td>
+                                    <td>{{ $region->label }}</td>
                                     <td>
+                                        @if ($region->status == 0)
+                                        <p class="label label-danger">غیر فعال</p>
+                                        @else
                                         <p class="label label-success">فعال</p>
+                                        @endif
                                     </td>
                                     <td>
-                                        <a class="label label-warning" href="{{ route('updateRegion',1) }}">ویرایش</a>
-                                        <a class="label label-info" href="{{ route('addCity',1) }}">افزودن شهر +</a>
+                                        <a class="label label-warning" href="{{ route('updateRegion',$region) }}">ویرایش</a>
+                                        <a class="label label-info" href="{{ route('addCity',$region->id) }}">افزودن شهر +</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>گیلان</td>
-                                    <td>
-                                        <p class="label label-warning">غیر فعال</p>
-                                    </td>
-                                    <td>
-                                        <a class="label label-warning" href="{{ route('updateRegion',1) }}">ویرایش</a>
-                                        <a class="label label-info" href="{{ route('addCity',2) }}">افزودن شهر +</a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
