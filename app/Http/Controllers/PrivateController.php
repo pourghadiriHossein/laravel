@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\AddressAction;
 use App\Actions\CategoryAction;
 use App\Actions\CommentAction;
 use App\Actions\DiscountAction;
@@ -28,6 +29,7 @@ use App\Http\Requests\UpdateRegionRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Address;
 use App\Models\City;
 use App\Models\Comment;
 use App\Models\Discount;
@@ -320,10 +322,12 @@ class PrivateController extends Controller
     }
     //address
     public function visitAddress() {
-        return view('private.address.visitAddress');
+        $addresses = AddressAction::getAllAddresses();
+        return view('private.address.visitAddress', compact('addresses'));
     }
 
-    public function deleteAddress() {
+    public function deleteAddress(Address $address) {
+        AddressAction::deleteAddress($address);
         return redirect(route('visitAddress'));
     }
     //order

@@ -72,20 +72,25 @@
                             </tr>
                             </tfoot>
                             <tbody>
+                                @foreach ($addresses as $address)
                                 <tr>
-                                    <td>1</td>
-                                    <td>حسین پورقدیری</td>
-                                    <td>گیلان</td>
-                                    <td>رشت</td>
-                                    <td>گلسار</td>
+                                    <td>{{ $address->id }}</td>
+                                    <td>{{ $address->user->name }}</td>
+                                    <td>{{ $address->city->region->label }}</td>
+                                    <td>{{ $address->city->label }}</td>
+                                    <td>{{ $address->detail }}</td>
                                     <td>
-                                            <p class="label label-warning" style="width: 250px">غیر فعال</p>
+                                        @if ($address->status == 0)
+                                        <p class="label label-danger" style="width: 250px">غیر فعال</p>
+                                        @else
+                                        <p class="label label-success" style="width: 250px">فعال</p>
+                                        @endif
                                     </td>
                                     <td>
-                                        <a class="label label-danger" data-toggle="modal" href="#myModal1">حذف</a>
+                                        <a class="label label-danger" data-toggle="modal" href="#myModal{{ $address->id }}">حذف</a>
                                     </td>
 
-                                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="myModal{{ $address->id }}" tabindex="-1" role="dialog"
                                          aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -103,49 +108,13 @@
                                                     <button data-dismiss="modal" class="btn btn-warning" type="button">
                                                         خیر
                                                     </button>
-                                                    <a href="{{ route('deleteAddress',1) }}" class="btn btn-danger" type="button">آری</a>
+                                                    <a href="{{ route('deleteAddress',$address) }}" class="btn btn-danger" type="button">آری</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>حسین پورقدیری</td>
-                                    <td>گیلان</td>
-                                    <td>رشت</td>
-                                    <td>گلسار</td>
-                                    <td>
-                                            <p class="label label-success" style="width: 250px">فعال</p>
-                                    </td>
-                                    <td>
-                                        <a class="label label-danger" data-toggle="modal" href="#myModal1">حذف</a>
-                                    </td>
-
-                                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
-                                         aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-hidden="true">&times;
-                                                    </button>
-                                                    <h4 class="modal-title">حذف آدرس</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ایا از این عمل اطمینان دارید؟
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button data-dismiss="modal" class="btn btn-warning" type="button">
-                                                        خیر
-                                                    </button>
-                                                    <a href="{{ route('deleteAddress',2) }}" class="btn btn-danger" type="button">آری</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
