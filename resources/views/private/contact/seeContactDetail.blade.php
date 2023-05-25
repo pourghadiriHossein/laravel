@@ -14,34 +14,34 @@
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نام و نام خانوادگی</label>
                                         <div class="col-lg-10">
-                                            <input value="حسین پورقدیری" type="text" class="form-control" disabled>
+                                            <input value="@if($contact->user_id) {{ $contact->user->name }} @else {{ $contact->name }} @endif" type="text" class="form-control" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">شماره تماس</label>
                                         <div class="col-lg-10">
-                                            <input value="09398932183" type="text" class="form-control" disabled>
+                                            <input value="{{ $contact->phone }}" type="text" class="form-control" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">پست الکترونیک</label>
                                         <div class="col-lg-10">
-                                            <input value="hossein.654321@yahoo.com" type="text" class="form-control" disabled>
+                                            <input value="{{ $contact->email }}" type="text" class="form-control" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">وضعیت نظر</label>
                                         <div class="col-lg-10">
                                             <select disabled name="status" class="form-control" style="height: 40px">
-                                                <option value="0">غیر فعال</option>
-                                                <option value="1">فعال</option>
+                                                <option value="0" @if($contact->status == 0) selected @endif>دیده نشده</option>
+                                                <option value="1" @if($contact->status == 1) selected @endif>دیده شده</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">متن ارسالی کاربر</label>
                                         <div class="col-lg-10">
-                                            <textarea disabled name="description" class="form-control">سلام با من تماس بگیرید</textarea>
+                                            <textarea disabled name="description" class="form-control">{{ $contact->description }}</textarea>
                                         </div>
                                     </div>
                                 </fieldset>

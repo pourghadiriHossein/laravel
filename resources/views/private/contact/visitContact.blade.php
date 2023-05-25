@@ -68,24 +68,27 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>حسین پورقدیری</td>
-                                        <td>09398932183</td>
-                                        <td>لباس بسیار عال...</td>
-                                        <td>
-                                                <a href="{{ route('seeContactDetail',1) }}"><p class="label label-danger">مشاهده نشده</p></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>حسین پورقدیری</td>
-                                        <td>09398932183</td>
-                                        <td>لباس بسیار عال...</td>
-                                        <td>
-                                                <a href="{{ route('seeContactDetail',1) }}"><p class="label label-success">مشاهده شده</p></a>
-                                        </td>
-                                    </tr>
+                                @foreach ($contacts as $contact)
+                                <tr>
+                                    <td>{{ $contact->id }}</td>
+                                    <td>
+                                        @if ($contact->user_id)
+                                        {{ $contact->user->name }}
+                                        @else
+                                        {{ $contact->name }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $contact->phone }}</td>
+                                    <td>{{ Str::substr($contact->description, 0, 8) }}...</td>
+                                    <td>
+                                        @if ($contact->status == 0)
+                                        <a href="{{ route('seeContactDetail',$contact) }}"><p class="label label-danger">مشاهده نشده</p></a>
+                                        @else
+                                        <p class="label label-success">مشاهده شده</p>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

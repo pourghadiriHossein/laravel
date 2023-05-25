@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\AddressAction;
 use App\Actions\CategoryAction;
 use App\Actions\CommentAction;
+use App\Actions\ContactAction;
 use App\Actions\DiscountAction;
 use App\Actions\PermissionAction;
 use App\Actions\ProductAction;
@@ -32,6 +33,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Address;
 use App\Models\City;
 use App\Models\Comment;
+use App\Models\Contact;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Models\Region;
@@ -340,10 +342,12 @@ class PrivateController extends Controller
     }
     //contact
     public function visitContact() {
-        return view('private.contact.visitContact');
+        $contacts = ContactAction::getAllContact();
+        return view('private.contact.visitContact', compact('contacts'));
     }
 
-    public function seeContactDetail() {
-        return view('private.contact.seeContactDetail');
+    public function seeContactDetail(Contact $contact) {
+        ContactAction::checkContactStatus($contact);
+        return view('private.contact.seeContactDetail', compact('contact'));
     }
 }
