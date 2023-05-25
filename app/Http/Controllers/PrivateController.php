@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CategoryAction;
+use App\Actions\CommentAction;
 use App\Actions\DiscountAction;
 use App\Actions\PermissionAction;
 use App\Actions\ProductAction;
@@ -15,12 +16,14 @@ use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\AddRoleRequest;
 use App\Http\Requests\AddTagRequest;
 use App\Http\Requests\AddUserRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Requests\UpdateDiscountRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Comment;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Models\Tag;
@@ -248,14 +251,17 @@ class PrivateController extends Controller
     }
     //comment
     public function visitComment() {
-        return view('private.comment.visitComment');
+        $comments = CommentAction::getAllComment();
+        return view('private.comment.visitComment', compact('comments'));
     }
 
-    public function updateComment() {
-        return view('private.comment.updateComment');
+    public function updateComment(Comment $comment) {
+        CommentAction::checkState($comment);
+        return view('private.comment.updateComment', compact('comment'));
     }
 
-    public function postUpdateComment() {
+    public function postUpdateComment(UpdateCommentRequest $request, $comment_id) {
+        CommentAction::updateComment($request, $comment_id);
         return redirect(route('visitComment'));
     }
     //region & city

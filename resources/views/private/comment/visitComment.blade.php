@@ -70,28 +70,27 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>حسین پورقدیری</td>
-                                        <td>لباس مجلسی</td>
-                                        <td> لباس بسیار عا...</td>
-                                        <td>
-                                                <p class="label label-danger">غیر فعال</p>
-                                                <p class="label label-danger">مشاهده نشده</p>
-                                        </td>
-                                        <td><a class="label label-warning" href="{{ route('updateComment',1) }}">ویرایش</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>حسین پورقدیری</td>
-                                        <td>لباس مجلسی</td>
-                                        <td> لباس بسیار عا...</td>
-                                        <td>
-                                                <p class="label label-success">فعال</p>
-                                                <p class="label label-success">مشاهده شده</p>
-                                        </td>
-                                        <td><a class="label label-warning" href="{{ route('updateComment',2) }}">ویرایش</a></td>
-                                    </tr>
+                                @foreach ($comments as $comment)
+                                <tr>
+                                    <td>{{ $comment->id }}</td>
+                                    <td>{{ $comment->user->name }}</td>
+                                    <td>{{ $comment->product->label }}</td>
+                                    <td>{{ Str::substr($comment->description, 0, 8) }}...</td>
+                                    <td>
+                                        @if ($comment->status == 0)
+                                        <p class="label label-danger">غیر فعال</p>
+                                        @else
+                                        <p class="label label-success">فعال</p>
+                                        @endif
+                                        @if ($comment->state == 0)
+                                        <p class="label label-danger">مشاهده نشده</p>
+                                        @else
+                                        <p class="label label-success">مشاهده شده</p>
+                                        @endif
+                                    </td>
+                                    <td><a class="label label-warning" href="{{ route('updateComment',$comment) }}">ویرایش</a></td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

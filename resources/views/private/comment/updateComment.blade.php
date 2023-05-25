@@ -11,21 +11,21 @@
                         <div class="panel-body">
                             @include('include.showError')
                             @include('include.validationError')
-                            <form class="form-horizontal" action="{{ route('postUpdateComment',1) }}" method="post" enctype="multipart/form-data">
+                            <form class="form-horizontal" action="{{ route('postUpdateComment',$comment->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <fieldset title="اطلاعات پایه" class="step" id="default-step-0">
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">نظر کاربر</label>
                                         <div class="col-lg-10">
-                                            <textarea name="description" class="form-control"></textarea>
+                                            <textarea name="description" class="form-control">{{ $comment->description }}</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">وضعیت نظر</label>
                                         <div class="col-lg-10">
                                             <select name="status" class="form-control" style="height: 40px">
-                                                <option value="0">غیر فعال</option>
-                                                <option value="1">فعال</option>
+                                                <option value="0" @if($comment->status == 0) selected @endif>غیر فعال</option>
+                                                <option value="1" @if($comment->status == 1) selected @endif>فعال</option>
                                             </select>
                                         </div>
                                     </div>
