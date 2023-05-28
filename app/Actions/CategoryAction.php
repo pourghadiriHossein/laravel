@@ -14,6 +14,11 @@ class CategoryAction {
         $category = Category::find($category_id);
         return $category;
     }
+    public static function getAllCategoriesForMenu()
+    {
+        $allCategories = Category::where('parent_id',null)->with(['subCategories'])->get();
+        return $allCategories;
+    }
     //Tools Part
 
     //Edit Part

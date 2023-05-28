@@ -25,14 +25,16 @@
     <div class="mainBox menu">
         <ul>
             <a class="linkMenu" href="{{ route('home') }}"><li>خانه</li></a>
+            @foreach (\App\Actions\CategoryAction::getAllCategoriesForMenu() as $category)
             <li class="dropdown">
-                <button class="dropbtn">محصولات</button>
+                <button class="dropbtn">{{ $category->label }}</button>
                 <div class="dropdown-content">
-                    <a class="linkMenu" href="{{ route('product') }}">مردانه</a>
-                    <a class="linkMenu" href="{{ route('product') }}">زنانه</a>
-                    <a class="linkMenu" href="{{ route('product') }}">کودکانه</a>
+                    @foreach ($category->subCategories as $subCategory)
+                    <a class="linkMenu" href="{{ route('product') }}">{{ $subCategory->label }}</a>
+                    @endforeach
                 </div>
             </li>
+            @endforeach
             <a class="linkMenu" href="{{ route('contact') }}"><li>تماس با ما</li></a>
             <a class="linkMenu" href="{{ route('faq') }}"><li>سوالات متداول</li></a>
             <a class="linkMenu" href="{{ route('tac') }}"><li>قوانین و مقررات</li></a>
@@ -98,10 +100,9 @@
         </div>
         <div class="box">
             <label class="footerFont" for="tag">تگ</label>
-            <button class="footerBTN">راحتی</button>
-            <button class="footerBTN">مقاوم</button>
-            <button class="footerBTN">اسپرت</button>
-            <button class="footerBTN">مجلسی</button>
+            @foreach (\App\Actions\TagAction::getAllTags() as $tag)
+            <button class="footerBTN">{{ $tag->label }}</button>
+            @endforeach
         </div>
         <div class="box">
             <label class="footerFont" for="payment">پرداخت</label>
