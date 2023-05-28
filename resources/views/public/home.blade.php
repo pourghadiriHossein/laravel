@@ -25,343 +25,117 @@
         <hr>
     </div>
     <div class="lastProduct">
+        @foreach ($lestProducts as $product)
         <div class="imageBox">
+            @if ($product->discount_id)
             <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag1-1-700x893.jpg" alt="bag1"></a>
+            @endif
+            <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag1-2-700x893.jpg" alt="bag1"></a>
+                <a href=""><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
                 <a href=""><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>کیف کروئلا</p></a>
+                <a href=""><p>{{ $product->label }}</p></a>
                <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
+                @foreach ($product->tags as $tag)
+                <span><a href="">{{ $tag->label }}</a></span>,
+                @endforeach
             </div>
             <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
+                @if ($product->discount_id)
+                <del>{{ $product->price }} ريال</del>
+                    @if ($product->discount->price)
+                    <ins>{{ $product->price - $product->discount->price }} ريال</ins>
+                    @else
+                    <ins>{{ $product->price - ($product->price * $product->discount->percent/100) }} ريال</ins>
+                    @endif
+                @else
+                <ins>{{ $product->price }} ريال</ins>
+                @endif
             </div>
         </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag3-1-700x893.jpg" alt="bag3"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag3-2-700x893.jpg" alt="bag"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>کیف قرمز مخملی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag4-1-700x893.jpg" alt="bag4"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag4-2-700x893.jpg" alt="bag"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>کیف چرمی درجه یک</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/dress1-1-700x893.jpg" alt="dress1"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/dress1-2-700x893.jpg" alt="bag"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>لباس مجلسی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="partition">
         <h1>آخرین محصولات مردانه</h1>
         <hr>
     </div>
     <div class="menProduct">
+        @foreach ($menProducts as $product)
         <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg" alt="hoodie1"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-2-700x893.jpg" alt="hoodie1"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>هودی اسپرت</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie2-1-700x893.jpg" alt="hoodie2"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie2-2-700x893.jpg" alt="hoodie2"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>هودی زرشکی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
+            @if ($product->discount_id)
             <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jacket1-1-700x893.jpg" alt="jacket1"></a>
+            @endif
+            <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jacket1-2-700x893.jpg" alt="jacket1"></a>
+                <a href=""><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
                 <a href=""><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>ژاکت طرح دار</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
+                <a href=""><p>{{ $product->label }}</p></a>
+               <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
+                @foreach ($product->tags as $tag)
+                <span><a href="">{{ $tag->label }}</a></span>,
+                @endforeach
             </div>
             <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
+                @if ($product->discount_id)
+                <del>{{ $product->price }} ريال</del>
+                    @if ($product->discount->price)
+                    <ins>{{ $product->price - $product->discount->price }} ريال</ins>
+                    @else
+                    <ins>{{ $product->price - ($product->price * $product->discount->percent/100) }} ريال</ins>
+                    @endif
+                @else
+                <ins>{{ $product->price }} ريال</ins>
+                @endif
             </div>
         </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jacket2-1-700x893.jpg" alt="jacket2"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jacket2-2-700x893.jpg" alt="jacket2"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href="" ><p>ژاکت نیوجرسی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/shirt1-1-700x893.jpg" alt="shirt1"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/shirt1-2-700x893.jpg" alt="shirt1"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>پیراهن لی اسپرت</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/shirt2-1-700x893.jpg" alt="shirt2"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/shirt2-2-700x893.jpg" alt="shirt2"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href="" ><p>پیراهن سیاه اسپرت</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="partition">
         <h1>آخرین محصولات زنانه</h1>
         <hr>
     </div>
     <div class="womenProduct">
+        @foreach ($womenProducts as $product)
         <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/dress2-1-700x893.jpg" alt="dress2"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/dress2-2-700x893.jpg" alt="dress2"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>لباس مجلسی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jeans1-1-700x893.jpg" alt="jeans1"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jeans1-2-700x893.jpg" alt="jeans1"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>شلوار لی طرح دار</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
+            @if ($product->discount_id)
             <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jeans2-1-700x893.jpg" alt="jeans2"></a>
+            @endif
+            <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/jeans2-2-700x893.jpg" alt="jeans2"></a>
+                <a href=""><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
                 <a href=""><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>شلوار لی ساده</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
+                <a href=""><p>{{ $product->label }}</p></a>
+               <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
+                @foreach ($product->tags as $tag)
+                <span><a href="">{{ $tag->label }}</a></span>,
+                @endforeach
             </div>
             <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
+                @if ($product->discount_id)
+                <del>{{ $product->price }} ريال</del>
+                    @if ($product->discount->price)
+                    <ins>{{ $product->price - $product->discount->price }} ريال</ins>
+                    @else
+                    <ins>{{ $product->price - ($product->price * $product->discount->percent/100) }} ريال</ins>
+                    @endif
+                @else
+                <ins>{{ $product->price }} ريال</ins>
+                @endif
             </div>
         </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/skirt1-1-700x893.jpg" alt="skirt1"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/skirt1-2-700x893.jpg" alt="skirt1"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>دامن سفید</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/skirt4-1-700x893.jpg" alt="skirt4"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/skirt4-2-700x893.jpg" alt="skirt4"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>دامن آر آر</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/top1-1-700x893.jpg" alt="top1"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/top1-2-700x893.jpg" alt="top1"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>تاپ مجلسی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 @endsection

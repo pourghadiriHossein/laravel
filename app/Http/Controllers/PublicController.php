@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ProductAction;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -26,7 +27,10 @@ class PublicController extends Controller
     }
 
     public function home() {
-        return view('public.home');
+        $lestProducts = ProductAction::getAtLeastProducts(4);
+        $menProducts = ProductAction::getProductWithSelectedCategory(1,6);
+        $womenProducts = ProductAction::getProductWithSelectedCategory(2,6);
+        return view('public.home' , compact('lestProducts','menProducts','womenProducts'));
     }
 
     public function login() {

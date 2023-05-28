@@ -22,6 +22,17 @@ class ProductAction {
         $image = ProductImage::find($image_id);
         return $image;
     }
+    public static function getAtLeastProducts($count){
+        $products = Product::orderBy('id','desc')->take($count)->get();
+        $products->load('productImages');
+        return $products;
+    }
+    public static function getProductWithSelectedCategory($category_id, $count){
+        $IDs = CategoryAction::getAllCategoriesIDWithNode($category_id);
+        $products = Product::whereIn('category_id',$IDs)->take($count)->orderBy('id','desc')->get();
+        $products->load('productImages');
+        return $products;
+    }
     //Tools Part
     public static function imagePath(){
         return 'public/images';

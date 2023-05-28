@@ -19,6 +19,17 @@ class CategoryAction {
         $allCategories = Category::where('parent_id',null)->with(['subCategories'])->get();
         return $allCategories;
     }
+    public static function getAllCategoriesIDWithNode($category_id){
+        $categories = Category::where('id',$category_id)->with(['subCategories'])->get();
+        $IDs = [];
+        foreach ($categories as $category){
+            $IDs[] = $category->id;
+            foreach ($category->subCategories as $subCategory){
+                $IDs[] = $subCategory->id;
+            }
+        }
+        return $IDs;
+    }
     //Tools Part
 
     //Edit Part
