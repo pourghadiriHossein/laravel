@@ -22,7 +22,7 @@ class ProductAction {
         $image = ProductImage::find($image_id);
         return $image;
     }
-    public static function getAtLeastProducts($count){
+    public static function getLastProducts($count){
         $products = Product::orderBy('id','desc')->take($count)->get();
         $products->load('productImages');
         return $products;
