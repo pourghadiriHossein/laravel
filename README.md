@@ -17,7 +17,7 @@ public static function getAllCategoriesIDWithNode($category_id){
 
 ## Add Two Query to ProductAction
 ```bash
-public static function getAtLeastProducts($count){
+public static function getLastProducts($count){
     $products = Product::orderBy('id','desc')->take($count)->get();
     $products->load('productImages');
     return $products;
@@ -34,10 +34,10 @@ public static function getProductWithSelectedCategory($category_id, $count){
 ## in PublicController, Update home function
 ```bash
 public function home() {
-    $atLeastProducts = ProductAction::getAtLeastProducts(4);
+    $lestProducts = ProductAction::getLastProducts(4);
     $menProducts = ProductAction::getProductWithSelectedCategory(1,6);
     $womenProducts = ProductAction::getProductWithSelectedCategory(2,6);
-    return view('public.home' , compact('atLeastProducts','menProducts','womenProducts'));
+    return view('public.home' , compact('lestProducts','menProducts','womenProducts'));
 }
 ```
 
