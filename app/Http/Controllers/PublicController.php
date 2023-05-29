@@ -27,7 +27,7 @@ class PublicController extends Controller
     }
 
     public function home() {
-        $lestProducts = ProductAction::getAtLeastProducts(4);
+        $lestProducts = ProductAction::getLastProducts(4);
         $menProducts = ProductAction::getProductWithSelectedCategory(1,6);
         $womenProducts = ProductAction::getProductWithSelectedCategory(2,6);
         return view('public.home' , compact('lestProducts','menProducts','womenProducts'));
