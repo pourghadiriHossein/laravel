@@ -29,7 +29,10 @@ class ProductAction {
     }
     public static function getProductWithSelectedCategory($category_id, $count){
         $IDs = CategoryAction::getAllCategoriesIDWithNode($category_id);
-        $products = Product::whereIn('category_id',$IDs)->take($count)->orderBy('id','desc')->get();
+        if ($count)
+            $products = Product::whereIn('category_id',$IDs)->take($count)->orderBy('id','desc')->get();
+        else
+            $products = Product::whereIn('category_id',$IDs)->orderBy('id','desc')->get();
         $products->load('productImages');
         return $products;
     }
