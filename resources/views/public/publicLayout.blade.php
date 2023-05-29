@@ -44,7 +44,7 @@
                 <span class="ShopingCartCounter center dropbtn">3</span>
                 <div class="dropdown-content">
                     <a class="btn" href="{{ route('cart') }}">فاکتور کن</a>
-                    <a class="linkMenu" href="{{ route('singleProduct') }}">
+                    <a class="linkMenu" href="{{ route('singleProduct',1) }}">
                         <img class="cart" src="{{ asset('public-side-files') }}/IMAGE/product/dress1-1-700x893.jpg" alt="dress1-1">
                         <div class="box">
                             <div class="detail">
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="linkMenu" href="{{ route('singleProduct') }}">
+                    <a class="linkMenu" href="{{ route('singleProduct',2) }}">
                         <img class="cart" src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg" alt="hoodie1-1">
                         <div class="box">
                             <div class="detail">
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </a>
-                    <a class="linkMenu" href="{{ route('singleProduct') }}">
+                    <a class="linkMenu" href="{{ route('singleProduct',3) }}">
                         <img class="cart" src="{{ asset('public-side-files') }}/IMAGE/product/jeans1-1-700x893.jpg" alt="jeans1-1">
                         <div class="box">
                             <div class="detail">

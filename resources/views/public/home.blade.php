@@ -30,13 +30,13 @@
             @if ($product->discount_id)
             <span class="discount"></span>
             @endif
-            <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
+            <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
-                <a href=""><div>جزئیات</div></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>{{ $product->label }}</p></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><p>{{ $product->label }}</p></a>
                <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">
@@ -69,13 +69,13 @@
             @if ($product->discount_id)
             <span class="discount"></span>
             @endif
-            <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
+            <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
-                <a href=""><div>جزئیات</div></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>{{ $product->label }}</p></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><p>{{ $product->label }}</p></a>
                <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">
@@ -108,13 +108,13 @@
             @if ($product->discount_id)
             <span class="discount"></span>
             @endif
-            <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
+            <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
-                <a href=""><div>جزئیات</div></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>{{ $product->label }}</p></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><p>{{ $product->label }}</p></a>
                <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">

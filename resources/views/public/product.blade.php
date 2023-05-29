@@ -56,7 +56,7 @@
                 @foreach ($newestMenProducts as $product)
                 <div class="smallShowProduct">
                     <div class="smallImage">
-                        <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="hoodie1"></a>
+                        <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="hoodie1"></a>
                     </div>
                     <div class="smallDetail">
                         <a href=""><p>{{$product->label}}</p></a>
@@ -80,7 +80,7 @@
                 @foreach ($newestWomenProducts as $product)
                 <div class="smallShowProduct">
                     <div class="smallImage">
-                        <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="hoodie1"></a>
+                        <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="hoodie1"></a>
                     </div>
                     <div class="smallDetail">
                         <a href=""><p>{{$product->label}}</p></a>
@@ -120,13 +120,13 @@
                 @if ($product->dicsount_id)
                 <span class="discount"></span>
                 @endif
-                <a href=""><img src="{{ asset($product->productImages[0]->path) }}" alt="{{ $product->label }}"></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="{{ $product->label }}"></a>
                 <div class="secondImageBox">
-                    <a href=""><img src="{{ asset($product->productimages[1]->path) }}" alt="{{ $product->label }}"></a>
-                    <a href=""><div>جزئیات</div></a>
+                    <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productimages[1]->path) }}" alt="{{ $product->label }}"></a>
+                    <a href="{{ route('singleProduct', $product->id) }}"><div>جزئیات</div></a>
                 </div>
                 <div class="productName">
-                    <a href=""><p>{{ $product->label }}</p></a>
+                    <a href="{{ route('singleProduct', $product->id) }}"><p>{{ $product->label }}</p></a>
                     <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
                 </div>
                 <div class="tag">

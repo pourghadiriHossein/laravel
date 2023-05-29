@@ -14,15 +14,25 @@
         <div class="productRoute">
             <ul>
                 <li><a href="">خانه</a></li>/
-                <li><a href="">زنانه</a></li>/
-                <li><a href="">لباس</a></li>
+                @if ($product->category->parent_id != null)
+                <li><a href="{{ route('filterProductByCategory', $product->category->parent_id) }}">{{ $product->category->parent->label }}</a></li>/
+                @endif
+                <li><a href="{{ route('filterProductByCategory', $product->category->id) }}">{{ $product->category->label }}</a></li>/
             </ul>
         </div>
         <div class="productDescription">
-            <h1>لباس مجلسی</h1>
-            <h2>لباس بسیار مرغوب و با کیفت عالی برای خاص پوش ها</h2>
-            <del>700000 ريال</del>
-            <ins>600000 ريال</ins>
+            <h1>{{ $product->label }}</h1>
+            <h2>{{ $product->description }}</h2>
+            @if ($product->discount_id)
+            <del>{{ $product->price }} ريال</del>
+                @if ($product->discount->price)
+                <ins>{{ $product->price - $product->discount->price }} ريال</ins>
+                @else
+                <ins>{{ $product->price - ($product->price * $product->discount->percent/100) }} ريال</ins>
+                @endif
+            @else
+            <ins>{{ $product->price }} ريال</ins>
+            @endif
         </div>
         <div class="productCounter">
             <form action="">
@@ -35,40 +45,43 @@
         <div class="productDetail">
             <div class="productCategory">
                 <span>دسته بندی: </span>
-                <p><a href="">لباس</a></p>
+                <p><a href="{{ route('filterProductByCategory',$product->category->id) }}">{{ $product->category->label }}</a></p>
             </div>
             <div class="productTag">
                 <span>تگ ها: </span>
-                <p><a href="">مجلسی</a></p>،
-                <p><a href="">راحتی</a></p>
+                @foreach ($product->tags as $tag)
+                <p><a href="{{ route('filterProductByTag', $tag->id) }}">{{ $tag->label }}</a></p>،
+                @endforeach
             </div>
         </div>
     </div>
     <div class="verticalPart">
         <div class="productImage">
-            <img id="show" src="{{ asset('public-side-files') }}/IMAGE/product/dress1-1-700x893.jpg" alt="dress1">
+            <img id="show" src="{{ asset($product->productImages[0]->path) }}" alt="dress1">
         </div>
         <div class="allImage">
-            <img onclick="selectFirstImage()" id="first" src="{{ asset('public-side-files') }}/IMAGE/product/dress1-1-700x893.jpg" alt="dress1">
-            <img onclick="selectSecondImage()" id="second" src="{{ asset('public-side-files') }}/IMAGE/product/dress1-2-700x893.jpg" alt="dress1">
+            <img onclick="selectFirstImage()" id="first" src="{{ asset($product->productImages[0]->path) }}" alt="dress1">
+            <img onclick="selectSecondImage()" id="second" src="{{ asset($product->productImages[1]->path) }}" alt="dress1">
         </div>
     </div>
     <div class="horizontalPart">
         <div class="tab">
             <button onclick="descriptionTab()">توضیحات</button>
-            <button onclick="commentTab()">نظر ها (0)</button>
+            <button onclick="commentTab()">نظر ها ({{ count($product->comments) }})</button>
         </div>
         <div id="description" class="tabcontent">
-            <p>لباس مجلسی</p>
-            <p>لباس بسیار مرغوب و با کیفت عالی برای خاص پوش ها</p>
+            <p>{{ $product->label }}</p>
+            <p>{{ $product->description }}</p>
         </div>
         <div id="comment" class="tabcontent">
+            @foreach ($product->comments as $comment)
             <div class="user">
-                <p>حسین پورقدیری</p>
+                <p>{{ $comment->user->name }}</p>
             </div>
             <div class="userComment">
-                <p>لباس بسیار مناسبی است.</p>
+                <p>{{ $comment->description }}</p>
             </div>
+            @endforeach
             <hr>
             <div class="newComment">
                 <form action="">
@@ -83,68 +96,39 @@
         <hr>
     </div>
     <div class="relatedProduct">
+        @foreach ($lestProducts as $product)
         <div class="imageBox">
+            @if ($product->discount_id)
             <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag1-1-700x893.jpg" alt="bag1"></a>
+            @endif
+            <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[0]->path) }}" alt="bag1"></a>
             <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag1-2-700x893.jpg" alt="bag1"></a>
-                <a href=""><div>جزئیات</div></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><img src="{{ asset($product->productImages[1]->path) }}" alt="bag1"></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><div>جزئیات</div></a>
             </div>
             <div class="productName">
-                <a href=""><p>کیف کروئلا</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
+                <a href="{{ route('singleProduct', $product->id) }}"><p>{{ $product->label }}</p></a>
+               <a href=""> <img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
             </div>
             <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
+                @foreach ($product->tags as $tag)
+                <span><a href="{{ route('filterProductByTag', $tag->id) }}">{{ $tag->label }}</a></span>,
+                @endforeach
             </div>
             <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
+                @if ($product->discount_id)
+                <del>{{ $product->price }} ريال</del>
+                    @if ($product->discount->price)
+                    <ins>{{ $product->price - $product->discount->price }} ريال</ins>
+                    @else
+                    <ins>{{ $product->price - ($product->price * $product->discount->percent/100) }} ريال</ins>
+                    @endif
+                @else
+                <ins>{{ $product->price }} ريال</ins>
+                @endif
             </div>
         </div>
-        <div class="imageBox">
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag3-1-700x893.jpg" alt="bag3"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag3-2-700x893.jpg" alt="bag"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>کیف قرمز مخملی</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
-        <div class="imageBox">
-            <span class="discount"></span>
-            <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag4-1-700x893.jpg" alt="bag4"></a>
-            <div class="secondImageBox">
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/product/bag4-2-700x893.jpg" alt="bag"></a>
-                <a href=""><div>جزئیات</div></a>
-            </div>
-            <div class="productName">
-                <a href=""><p>کیف چرمی درجه یک</p></a>
-                <a href=""><img src="{{ asset('public-side-files') }}/IMAGE/menu/ShopingCartLogo.png" alt="ShopingCartLogo"></a>
-            </div>
-            <div class="tag">
-                <span><a href="">راحتی</a></span>,
-                <span><a href="">مقاوم</a></span>,
-                <span><a href="">اسپرت</a></span>,
-            </div>
-            <div class="price">
-                <del>700000 ريال</del>
-                <ins>600000 ريال</ins>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 @endsection

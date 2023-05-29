@@ -24,7 +24,7 @@ Route::get('product/tag/{tag_id}',[PublicController::class, 'filterProductByTag'
 
 Route::get('register',[PublicController::class, 'register'])->name('register');
 
-Route::get('singleProduct',[PublicController::class, 'singleProduct'])->name('singleProduct');
+Route::get('singleProduct/{product_id}',[PublicController::class, 'singleProduct'])->name('singleProduct');
 
 Route::get('tac',[PublicController::class, 'tac'])->name('tac');
 

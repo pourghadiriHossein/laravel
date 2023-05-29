@@ -78,8 +78,10 @@ class PublicController extends Controller
         return view('public.register');
     }
 
-    public function singleProduct() {
-        return view('public.singleProduct');
+    public function singleProduct($product_id) {
+        $product = ProductAction::getProduct($product_id);
+        $lestProducts = ProductAction::getLastProducts(3);
+        return view('public.singleProduct', compact('product','lestProducts'));
     }
 
     public function tac() {
