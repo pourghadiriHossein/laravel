@@ -31,6 +31,7 @@ Route::get('singleProduct/{product_id}',[PublicController::class, 'singleProduct
 
 Route::get('tac',[PublicController::class, 'tac'])->name('tac');
 
+Route::post('add-comment/{product}',[PublicController::class, 'postNewComment'])->name('postNewComment');
 
 // Private  Route
 Route::prefix('private')->group(function () {

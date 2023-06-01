@@ -75,20 +75,29 @@
         </div>
         <div id="comment" class="tabcontent">
             @foreach ($product->comments as $comment)
+            @if ($comment->status == 1)
             <div class="user">
                 <p>{{ $comment->user->name }}</p>
             </div>
             <div class="userComment">
                 <p>{{ $comment->description }}</p>
             </div>
+            @endif
             @endforeach
+            @auth
             <hr>
+            <div style="width: 79%">
+                @include('include.showError')
+                @include('include.validationError')
+            </div>
             <div class="newComment">
-                <form action="">
+                <form action="{{ route('postNewComment', $product) }}" method="post">
+                    @csrf
                     <textarea name="comment" placeholder="نظر خود را بنویسید ..."></textarea>
                     <input type="submit" value="ثبت نظر">
                 </form>
             </div>
+            @endauth
         </div>
     </div>
     <div class="partition">

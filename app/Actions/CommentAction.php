@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 class CommentAction {
     //Query Part
@@ -31,6 +32,15 @@ class CommentAction {
         $updateComment->description = $request->input('description');
         $updateComment->status = $request->input('status');
         $updateComment->save();
+        return back();
+    }
+    public static function addComment($request, $product_id)
+    {
+        $newComment = new Comment();
+        $newComment->user_id = Auth::id();
+        $newComment->product_id = $product_id;
+        $newComment->description = $request->input('comment');
+        $newComment->save();
         return back();
     }
     //necessary function

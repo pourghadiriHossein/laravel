@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CategoryAction;
+use App\Actions\CommentAction;
 use App\Actions\ProductAction;
 use App\Actions\TagAction;
 use App\Actions\UserAction;
+use App\Http\Requests\AddCommentRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -115,5 +118,10 @@ class PublicController extends Controller
 
     public function tac() {
         return view('public.tac');
+    }
+
+    public function postNewComment(AddCommentRequest $request, Product $product){
+        CommentAction::addComment($request, $product->id);
+        return redirect(route('visitComment'));
     }
 }
