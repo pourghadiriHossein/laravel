@@ -1,47 +1,43 @@
-# Complete Login Process
+# Complete Register Process
 
-## Add two Function to UserAction
+## Add one Function to UserAction
 ```bash
-public static function login($request)
+public static function register($request)
 {
-    $status = [
-        'UserNotFound' => 0,
-        'WrongPassword' => 0,
-        'UserLogin' => 0,
-    ];
-    $user = User::where('phone', $request->input('phone'))->first();
-    if ($user)
+    $uniqueParameter = ['phone' => 0, 'email' => 0];
+    $phone = $request->input('phone');
+    $email = $request->input('email');
+    if (self::checkPhone($phone) == true)
     {
-        if(Hash::check($request->input('password'), $user->password))
-        {
-            $status['UserLogin'] = 1;
-            Auth::login($user,true);
-        }
-        else
-            $status['WrongPassword'] = 1;
-    }else
-        $status['UserNotFound'] = 1;
-    return $status;
+        $uniqueParameter['phone'] = 1;
+        return $uniqueParameter;
+    }
+    if (self::checkEmail($email) == true)
+    {
+        $uniqueParameter['email'] = 1;
+        return $uniqueParameter;
+    }
+    $newUser = new User();
+    $newUser->name = $request->input('name');
+    $newUser->phone = $request->input('phone');
+    $newUser->email = $request->input('email');
+    $newUser->password = Hash::make($request->input('password'));
+    $newUser->save();
+    $newUser->assignRole(Role::findByName('user'));
+    Auth::login($newUser,true);
+    return $uniqueParameter;
 }
 ```
+## Add one Route in web.php File for register process
 ```bash
-public static function logout()
-{
-    Auth::logout();
-    return back();
-}
+Route::post('register',[PublicController::class, 'postRegister'])->name('postRegister');
 ```
-## Add two Route in web.php File for login process
-```bash
-Route::post('login',[PublicController::class, 'postLogin'])->name('postLogin');
-Route::get('logout',[PublicController::class, 'logout'])->name('logout');
-```
-## Create LoginRequest
+## Create RegisterRequest
 - ### Command
 ```bash
-php artisan make:request LoginRequest
+php artisan make:request RegisterRequest
 ```
-- ### Update LoginRequest File
+- ### Update RegisterRequest File
 ```bash
 public function authorize()
 {
@@ -52,45 +48,39 @@ public function authorize()
 public function rules()
 {
     return [
+        'name' => 'required|min:3|max:100',
         'phone' => 'required|digits_between:11,14',
-        'password' => 'required|min:3|max:100',
+        'email' => 'required|email',
+        'password' => ['required', 'max:100',
+        Password::min(4)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
     ];
 }
 ```
 ## In PublicController
-- ### Add postLogin function
+- ### Add postRegister function
 ```bash
-public function postLogin(LoginRequest $request) {
-    $report = UserAction::login($request);
-    switch($report)
-    {
-        case $report['UserNotFound'] == 1:
-            return redirect()->back()->with('danger', 'کاربر مورد نظر وجود ندارد! لطفا ثبت نام کنید');
-        case $report['WrongPassword'] == 1:
-            return redirect()->back()->with('danger', 'رمز عبور صحیح نیست');
-        case $report['UserLogin'] == 1:
-            return redirect(route('visitUser'));
-    }
+public function postRegister(RegisterRequest $request) {
+    $report = UserAction::register($request);
+    if ($report['phone'] == 1)
+        return redirect()->back()->with('danger','کاربری با این شماره تماس وجود دارد');
+    if ($report['email'] == 1)
+        return redirect()->back()->with('danger', 'کاربری با این ایمیل وجود دارد');
+    return redirect(route('visitUser'));
 }
 ```
-- ### Add logout function
+## Update register.blade.php File
 ```bash
-public function logout(){
-    UserAction::logout();
-    return redirect(route('home'));
-}
-```
-## Update login.blade.php File
-```bash
-<div class="mainBox login">
+<div class="mainBox register">
     @include('include.showError')
     @include('include.validationError')
-    <h1>ورود</h1>
+    <h1>ثبت نام</h1>
     <hr>
-    <div class="loginBox">
-        <form action="{{ route('postLogin') }}" method="post" autocomplete="on">
+    <div class="registerBox">
+        <form action="{{ route('postRegister') }}" method="post" autocomplete="on">
             @csrf
+            <input type="text" name="name" placeholder="نام و نام خانوادگی خود را وارد کنید">
             <input type="text" name="phone" placeholder="شماره تماس خود را وارد کنید">
+            <input type="text" name="email" placeholder="پست الکترونیک خود را وارد کنید">
             <input type="text" name="password" placeholder="رمز عبور خود را وارد کنید">
             <input type="submit" value="ارسال کن">
         </form>
@@ -103,33 +93,3 @@ public function logout(){
     </div>
 </div>
 ```
-## Update Top Menu in publicLayout.blade.php File
-```bash
-<div class="mainBox topHeader">
-    @if (Auth::user())
-    <a class="link" href="{{ route('visitUser') }}"><button class="inlineLogin">داشبورد</button></a>
-    <a class="link" href="{{ route('logout') }}"><button class="inlineLogin">خروج</button></a>
-    @else
-    <a class="link" href="{{ route('login') }}"><button class="inlineLogin">ورود</button></a>
-    <a class="link" href="{{ route('register') }}"><button class="inlineLogin">ثبت نام</button></a>
-    @endif
-    <p id="customizeDate" class="inlineDate"></p>
-</div>
-```
-
-## Update Top Menu in privateLayout.blade.php File
-```bash
-<span class="username">
-    @if (Auth::user())
-    {{ Auth::user()->name }}
-    @endif
-    <b class="caret"></b>
-    <ul class="dropdown-menu extended logout">
-        <div class="log-arrow-up"></div>
-        <p></p>
-        <li><a href="{{ route('logout') }}"><i class="icon-eject"></i> خروج</a></li>
-    </ul>
-</span>
-```
-
-

@@ -25,6 +25,7 @@ Route::get('product/category/{category_id}',[PublicController::class, 'filterPro
 Route::get('product/tag/{tag_id}',[PublicController::class, 'filterProductByTag'])->name('filterProductByTag');
 
 Route::get('register',[PublicController::class, 'register'])->name('register');
+Route::post('register',[PublicController::class, 'postRegister'])->name('postRegister');
 
 Route::get('singleProduct/{product_id}',[PublicController::class, 'singleProduct'])->name('singleProduct');
 

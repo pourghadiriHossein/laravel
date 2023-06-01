@@ -105,11 +105,36 @@ class UserAction {
             $status['UserNotFound'] = 1;
         return $status;
     }
-    
+
     public static function logout()
     {
         Auth::logout();
         return back();
+    }
+    public static function register($request)
+    {
+        $uniqueParameter = ['phone' => 0, 'email' => 0];
+        $phone = $request->input('phone');
+        $email = $request->input('email');
+        if (self::checkPhone($phone) == true)
+        {
+            $uniqueParameter['phone'] = 1;
+            return $uniqueParameter;
+        }
+        if (self::checkEmail($email) == true)
+        {
+            $uniqueParameter['email'] = 1;
+            return $uniqueParameter;
+        }
+        $newUser = new User();
+        $newUser->name = $request->input('name');
+        $newUser->phone = $request->input('phone');
+        $newUser->email = $request->input('email');
+        $newUser->password = Hash::make($request->input('password'));
+        $newUser->save();
+        $newUser->assignRole(Role::findByName('user'));
+        Auth::login($newUser,true);
+        return $uniqueParameter;
     }
     //necessary function
     private static function checkPhone($phone)

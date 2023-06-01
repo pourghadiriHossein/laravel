@@ -7,6 +7,7 @@ use App\Actions\ProductAction;
 use App\Actions\TagAction;
 use App\Actions\UserAction;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -56,6 +57,15 @@ class PublicController extends Controller
     public function logout(){
         UserAction::logout();
         return redirect(route('home'));
+    }
+
+    public function postRegister(RegisterRequest $request) {
+        $report = UserAction::register($request);
+        if ($report['phone'] == 1)
+            return redirect()->back()->with('danger','کاربری با این شماره تماس وجود دارد');
+        if ($report['email'] == 1)
+            return redirect()->back()->with('danger', 'کاربری با این ایمیل وجود دارد');
+        return redirect(route('visitUser'));
     }
 
     public function product() {

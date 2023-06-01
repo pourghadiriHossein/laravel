@@ -10,10 +10,13 @@
 
 @section('content')
 <div class="mainBox register">
+    @include('include.showError')
+    @include('include.validationError')
     <h1>ثبت نام</h1>
     <hr>
     <div class="registerBox">
-        <form action="" method="" autocomplete="on">
+        <form action="{{ route('postRegister') }}" method="post" autocomplete="on">
+            @csrf
             <input type="text" name="name" placeholder="نام و نام خانوادگی خود را وارد کنید">
             <input type="text" name="phone" placeholder="شماره تماس خود را وارد کنید">
             <input type="text" name="email" placeholder="پست الکترونیک خود را وارد کنید">
