@@ -94,7 +94,7 @@ public static function calculateCart()
 }
 ```
 ```bash
-private static function calculateDiscount($price,$discountPrice,$discountPercent){
+public static function calculateDiscount($price,$discountPrice,$discountPercent){
     if ($discountPrice != null)
         return ($price-$discountPrice);
     elseif($discountPercent != null)
