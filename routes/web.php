@@ -37,7 +37,7 @@ Route::post('add-comment/{product}',[PublicController::class, 'postNewComment'])
 
 Route::get('/session/{product_id}/{quantity}/{session_task}',[Controller::class,'session'])->name('session');
 
-Route::get('gateway/{order_id}',[PublicController::class,'sendForPay'])->name('sendForPay')->middleware('auth');
+Route::get('gateway/{order_id}',[PublicController::class,'sendForPay'])->name('sendForPay');
 Route::post('callback',[PublicController::class,'callback'])->name('callback');
 
 // Private  Route
