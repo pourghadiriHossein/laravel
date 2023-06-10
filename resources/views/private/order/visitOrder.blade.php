@@ -77,22 +77,34 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                                @foreach ($orders as $order)
                                 <tr>
-                                    <td>1</td>
-                                    <td>حسین پورقدیری</td>
-                                    <td>گیلان</td>
-                                    <td>رشت</td>
-                                    <td>گلسار</td>
-                                    <td>تخفیف ندارد</td>
-                                    <td>5000000 ریال</td>
-                                    <td>4000000 ریال</td>
+                                    <td>{{$order->id}}</td>
+                                    <td>{{$order->user->name}}</td>
+                                    <td>{{$order->address->city->region->label}}</td>
+                                    <td>{{$order->address->city->label}}</td>
+                                    <td>{{$order->address->detail}}</td>
                                     <td>
-                                            <p class="label label-warning" style="width: 250px">پرداخت نشده</p>
+                                        @if ($order->discount_id)
+                                        {{$order->discount->label}}
+                                        @else
+                                        تخفیف ندارد
+                                        @endif
+                                    </td>
+                                    <td>{{$order->total_price}} ریال</td>
+                                    <td>{{$order->pay_price}} ریال</td>
+                                    <td>
+                                        @if ($order->status == 0)
+                                        <p class="label label-danger" style="width: 250px">پرداخت نشده</p>
+                                        @else
+                                        <p class="label label-success" style="width: 250px">پرداخت شده</p>
+                                        @endif
                                     </td>
                                     <td>
-                                        <a class="label label-danger" href="">پرداخت</a>
-                                        <a class="label label-info" data-toggle="modal" href="#myModal1">محصولات</a>
-                                        <div class="modal fade" id="myModal1" tabindex="-1"
+                                        @if ($order->status == 0)
+                                        <a style="display: inline-block" class="label label-warning" href="{{route('sendForPay', $order->id)}}">پرداخت</a><br>
+                                        <a style="display: inline-block" class="label label-info" data-toggle="modal" href="#myModal{{$order->id}}">محصولات</a><br>
+                                        <div class="modal fade" id="myModal{{$order->id}}" tabindex="-1"
                                             role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -115,17 +127,19 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                @foreach ($order->orderListItems as $item)
                                                                 <tr>
-                                                                    <td>1</td>
+                                                                    <td>{{$item->id}}</td>
                                                                     <td>
-                                                                        <img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg"
+                                                                        <img src="{{ asset($item->product->productImages[0]->path) }}"
                                                                             height="50" width="40">
                                                                     </td>
-                                                                    <td>هودی</td>
-                                                                    <td>1</td>
-                                                                    <td>5000000 ريال</td>
-                                                                    <td>4000000 ريال</td>
+                                                                    <td>{{$item->product->label}}</td>
+                                                                    <td>{{$item->count}}</td>
+                                                                    <td>{{$item->price}} ريال</td>
+                                                                    <td>{{$item->pay_price}} ريال</td>
                                                                 </tr>
+                                                                @endforeach
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -137,24 +151,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>حسین پورقدیری</td>
-                                    <td>گیلان</td>
-                                    <td>رشت</td>
-                                    <td>گلسار</td>
-                                    <td>تخفیف ندارد</td>
-                                    <td>5000000 ریال</td>
-                                    <td>4000000 ریال</td>
-                                    <td>
-                                            <p class="label label-success" style="width: 250px">پرداخت شده</p>
-                                    </td>
-                                    <td>
-                                        <a class="label label-danger" href="">پرداخت</a>
-                                        <a class="label label-info" data-toggle="modal" href="#myModal2">محصولات</a>
-                                        <div class="modal fade" id="myModal2" tabindex="-1"
+                                        @else
+                                        <a class="label label-info" data-toggle="modal" href="#myModal{{$order->id}}">محصولات</a><br>
+                                        <div class="modal fade" id="myModal{{$order->id}}" tabindex="-1"
                                             role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -177,17 +176,19 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                @foreach ($order->orderListItems as $item)
                                                                 <tr>
-                                                                    <td>1</td>
+                                                                    <td>{{$item->id}}</td>
                                                                     <td>
-                                                                        <img src="{{ asset('public-side-files') }}/IMAGE/product/hoodie1-1-700x893.jpg"
+                                                                        <img src="{{ asset($item->product->productImages[0]->path) }}"
                                                                             height="50" width="40">
                                                                     </td>
-                                                                    <td>هودی</td>
-                                                                    <td>1</td>
-                                                                    <td>5000000 ريال</td>
-                                                                    <td>4000000 ريال</td>
+                                                                    <td>{{$item->product->label}}</td>
+                                                                    <td>{{$item->count}}</td>
+                                                                    <td>{{$item->price}} ريال</td>
+                                                                    <td>{{$item->pay_price}} ريال</td>
                                                                 </tr>
+                                                                @endforeach
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -199,8 +200,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
+
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

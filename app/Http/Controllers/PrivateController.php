@@ -7,11 +7,13 @@ use App\Actions\CategoryAction;
 use App\Actions\CommentAction;
 use App\Actions\ContactAction;
 use App\Actions\DiscountAction;
+use App\Actions\OrderAction;
 use App\Actions\PermissionAction;
 use App\Actions\ProductAction;
 use App\Actions\RCAction;
 use App\Actions\RoleAction;
 use App\Actions\TagAction;
+use App\Actions\TransactionAction;
 use App\Actions\UserAction;
 use App\Http\Requests\AddCityRequest;
 use App\Http\Requests\AddDiscountRequest;
@@ -334,11 +336,13 @@ class PrivateController extends Controller
     }
     //order
     public function visitOrder() {
-        return view('private.order.visitOrder');
+        $orders = OrderAction::getAllOrders();
+        return view('private.order.visitOrder', compact('orders'));
     }
     //transaction
     public function visitTransaction() {
-        return view('private.transaction.visitTransaction');
+        $transactions = TransactionAction::getAllTransaction();
+        return view('private.transaction.visitTransaction', compact('transactions'));
     }
     //contact
     public function visitContact() {

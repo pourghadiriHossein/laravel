@@ -76,19 +76,21 @@
                             </tr>
                             </tfoot>
                             <tbody>
+                                @foreach ($transactions as $transaction)
                                 <tr>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>5000000 ریال</td>
-                                    <td>vjnrvrjvut4859tg</td>
-                                    <td>785795</td>
-                                    <td>5892-****-****-1604</td>
-                                    <td>1401/10/25 22:40:31</td>
-                                    <td>1401/10/25 22:40:55</td>
+                                    <td>{{$transaction->id}}</td>
+                                    <td>{{$transaction->order_id}}</td>
+                                    <td>{{$transaction->amount}} ریال</td>
+                                    <td>{{$transaction->IDPay_track_id}}</td>
+                                    <td>{{$transaction->IDPay_id}}</td>
+                                    <td>{{$transaction->card_no}}</td>
+                                    <td>{{$transaction->pay_date}}</td>
+                                    <td>{{$transaction->verify_date}}</td>
                                     <td>
-                                        <p class="label label-warning" style="width: 250px">به دریافت کننده واریز شد</p>
+                                        {!! \App\Actions\GatewayAction::gatewayStatusCode($transaction->status) !!}
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

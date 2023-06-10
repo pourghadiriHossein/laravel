@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\AddressAction;
 use App\Actions\CategoryAction;
 use App\Actions\CommentAction;
+use App\Actions\OrderAction;
 use App\Actions\ProductAction;
+use App\Actions\RCAction;
+use App\Actions\SessionAction;
 use App\Actions\TagAction;
+use App\Actions\TransactionAction;
 use App\Actions\UserAction;
 use App\Http\Requests\AddCommentRequest;
+use App\Http\Requests\CheckoutRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
 {
@@ -23,7 +30,51 @@ class PublicController extends Controller
     }
 
     public function checkout() {
-        return view('public.checkout');
+        if (Auth::guest())
+            return redirect(route('login'));
+        $addresses = AddressAction::getUserAddresses(Auth::id());
+        $cities = RCAction::getAllCity();
+        return view('public.checkout', compact('addresses', 'cities'));
+    }
+
+    public function postCheckout(CheckoutRequest $request){
+        if (!empty(SessionAction::getBasket())) {
+            if ($request->input('newAddress')){
+                $currentAddressID = AddressAction::addAddress($request);
+            }else{
+                $currentAddressID = $request->input('selectedPreviousAddress');
+            }
+
+            list($newOrder_id, $newOrder_pay_price) = OrderAction::addOrder($currentAddressID);
+
+            OrderAction::addNewList($newOrder_id);
+
+            $status = TransactionAction::newTransaction($newOrder_id, $newOrder_pay_price);
+            if($status['error'] == 1)
+                return redirect(route('adminVisitOrder'));
+            else
+                return redirect($status['link']);
+        }else
+            return redirect(route('home'));
+    }
+    public function callback(Request $request)
+    {
+        if (!$request->input('order_id'))
+            return redirect(route('visitOrder'));
+        TransactionAction::responseToCallback($request);
+        return redirect(route('visitTransaction'));
+    }
+
+    public function sendForPay($order_id)
+    {
+        $order = OrderAction::getOrder($order_id);
+        $order_id = $order->id;
+        $order_pay_price = $order->pay_price;
+        $status = TransactionAction::newTransaction($order_id, $order_pay_price);
+            if($status['error'] == 1)
+                return redirect(route('adminVisitOrder'));
+            else
+                return redirect($status['link']);
     }
 
     public function contact() {

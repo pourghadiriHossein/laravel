@@ -10,6 +10,7 @@ route::get('', [PublicController::class, 'index']);
 Route::get('cart',[PublicController::class, 'cart'])->name('cart');
 
 Route::get('checkout',[PublicController::class, 'checkout'])->name('checkout');
+Route::post('checkout',[PublicController::class, 'postCheckout'])->name('postCheckout');
 
 Route::get('contact',[PublicController::class, 'contact'])->name('contact');
 
@@ -35,6 +36,9 @@ Route::get('tac',[PublicController::class, 'tac'])->name('tac');
 Route::post('add-comment/{product}',[PublicController::class, 'postNewComment'])->name('postNewComment');
 
 Route::get('/session/{product_id}/{quantity}/{session_task}',[Controller::class,'session'])->name('session');
+
+Route::get('gateway/{order_id}',[PublicController::class,'sendForPay'])->name('sendForPay')->middleware('auth');
+Route::post('callback',[PublicController::class,'callback'])->name('callback');
 
 // Private  Route
 Route::prefix('private')->group(function () {

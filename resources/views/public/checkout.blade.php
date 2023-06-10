@@ -10,22 +10,24 @@
 
 @section('content')
 <div class="mainBox checkout">
-    <form action="" method="" autocomplete="on">
+    @include('include.showError')
+    @include('include.validationError')
+    <form action="{{ route('postCheckout') }}" method="post" autocomplete="on">
+        @csrf
         <div class="partition">
             <div class="previousAddress">
-                <label><input type="checkbox" value="1" name="previousAddress">&nbsp; آردس پیش فرض &nbsp;</label>
-                <label><input type="radio" value="1" name="selectedPreviousAddress"> گیلان - رشت - گلسار </label>
-                <label><input type="radio" value="1" name="selectedPreviousAddress"> گیلان - رشت - منظریه </label>
-                <label><input type="radio" value="1" name="selectedPreviousAddress"> گیلان - رشت - شهریاران </label>
+                <label><input type="checkbox" name="previousAddress">&nbsp; آردس پیش فرض &nbsp;</label>
+                @foreach ($addresses as $address)
+                <label><input type="radio" value="{{ $address->id }}" name="selectedPreviousAddress"> {{ $address->city->region->label }} - {{ $address->city->label }} - {{ $address->detail }} </label>
+                @endforeach
             </div>
             <div class="newAddress">
-                <label><input type="checkbox" value="1" name="newAddress">&nbsp; آردس پیش فرض &nbsp;</label>
-                <input list="region" name="newAddress" placeholder="کد شهر خود را انتخاب کنید">
+                <label><input type="checkbox" name="newAddress">&nbsp; آردس پیش فرض &nbsp;</label>
+                <input list="region" name="city_id" placeholder="کد شهر خود را انتخاب کنید">
                 <datalist id="region">
-                    <option value="1">گیلان - رشت - گلسار</option>
-                    <option value="2">گیلان - رشت - رازی </option>
-                    <option value="3">گیلان - رشت - گاز</option>
-                    <option value="4">گیلان - رشت - معلم</option>
+                    @foreach ($cities as $city)
+                    <option value="{{ $city->id }}">{{ $city->region->label }} - {{ $city->label }}</option>
+                    @endforeach
                 </datalist>
                 <input type="text" name="detail" placeholder="جزئیات آدرس: مثال گلسار - چهار راه اصفهان" maxlength="100">
             </div>
@@ -93,11 +95,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td rowspan="2">مجموعه پل استار</td>
-                            <td>013-34911</td>
+                            <td rowspan="2">{{ Auth::user()->name }}</td>
+                            <td>{{ Auth::user()->phone }}</td>
                         </tr>
                         <tr>
-                            <td>info@poulstar.com</td>
+                            <td>{{ Auth::user()->email }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -105,7 +107,7 @@
         </div>
         <div class="partition">
             <label>
-                <input type="checkbox" value="1" name="acceptTerm">
+                <input type="checkbox" name="acceptTerm">
                 &nbsp; <a href="{{ route('tac') }}">قوانین و مقررات</a> سایت را مطالعه کرده و با آگاهی کامل شرایط خرید آنلاین را می پذیرم. &nbsp;
             </label>
             <input type="submit" value="تایید و پرداخت">
