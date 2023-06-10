@@ -339,7 +339,7 @@ public function updateProduct(Product $product) {
             <div class="col-lg-10">
                 <select name="status" class="form-control" style="height: 40px">
                     <option value="0" @if($product->status == 0) selected @endif>غیر فعال</option>
-                    <option value="1" @if($product->status == 0) selected @endif>فعال</option>
+                    <option value="1" @if($product->status == 1) selected @endif>فعال</option>
                 </select>
             </div>
         </div>
