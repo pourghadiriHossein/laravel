@@ -344,7 +344,7 @@ Route::post('checkout',[PublicController::class, 'postCheckout'])->name('postChe
 ```
 - ### For IDPay
 ```bash
-Route::get('gateway/{order_id}',[PublicController::class,'sendForPay'])->name('sendForPay')->middleware('auth');
+Route::get('gateway/{order_id}',[PublicController::class,'sendForPay'])->name('sendForPay');
 Route::post('callback',[PublicController::class,'callback'])->name('callback');
 ```
 ## Create CheckoutRequest
