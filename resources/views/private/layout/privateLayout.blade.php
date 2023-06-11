@@ -81,10 +81,12 @@
                     </a>
                     <ul class="sub">
                         <li><a href="{{ route('visitUser') }}" style="color: #f2f2f2">لیست کاربران</a></li>
+                        @if(Auth::user()->hasRole('admin'))
                         <li><a href="{{ route('addUser') }}" style="color: #f2f2f2">افزودن کاربر</a></li>
+                        @endif
                     </ul>
                 </li>
-
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitPermission')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'addPermission')
@@ -112,7 +114,9 @@
                         <li> <a href="{{ route('addRole') }}" style="color: #f2f2f2">افزودن نقش</a></li>
                     </ul>
                 </li>
+                @endif
 
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitCategory')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'addCategory')
@@ -134,7 +138,9 @@
                         <li><a href="{{ route('addCategory') }}" style="color: #f2f2f2">افزودن دسته</a></li>
                     </ul>
                 </li>
+                @endif
 
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitTag')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'addTag')
@@ -154,7 +160,9 @@
                         <li><a href="{{ route('addTag') }}" style="color: #f2f2f2">افزودن تگ</a></li>
                     </ul>
                 </li>
+                @endif
 
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitDiscount')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'addDiscount')
@@ -174,7 +182,9 @@
                         <li><a href="{{ route('addDiscount') }}" style="color: #f2f2f2">افزودن تخفیف</a></li>
                     </ul>
                 </li>
+                @endif
 
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitProduct')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'addProduct')
@@ -194,6 +204,7 @@
                         <li><a href="{{ route('addProduct') }}" style="color: #f2f2f2">افزودن محصولات</a></li>
                     </ul>
                 </li>
+                @endif
 
                 <li @if(Route::currentRouteName() == 'visitComment')
                         class="sub-menu active"
@@ -212,6 +223,7 @@
                     </ul>
                 </li>
 
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitRegion')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'addRegion')
@@ -238,6 +250,7 @@
                         <li><a href="{{ route('visitCity') }}" style="color: #f2f2f2">لیست شهر</a></li>
                     </ul>
                 </li>
+                @endif
 
                 <li @if(Route::currentRouteName() == 'visitAddress')
                         class="sub-menu active"
@@ -283,7 +296,7 @@
                         <li><a href="{{ route('visitTransaction') }}" style="color: #f2f2f2">لیست تراکنش ها</a></li>
                     </ul>
                 </li>
-
+                @if(Auth::user()->hasRole('admin'))
                 <li @if(Route::currentRouteName() == 'visitContact')
                         class="sub-menu active"
                     @elseif(Route::currentRouteName() == 'seeContactDetail')
@@ -300,6 +313,7 @@
                         <li><a href="{{ route('visitContact') }}" style="color: #f2f2f2">لیست تماس ها</a></li>
                     </ul>
                 </li>
+                @endif
             </ul>
             <!-- sidebar menu end-->
         </div>

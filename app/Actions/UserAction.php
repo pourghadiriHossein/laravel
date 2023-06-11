@@ -13,6 +13,10 @@ class UserAction {
         $users = User::all();
         return $users;
     }
+    public static function getUserInArray(){
+        $users = User::where('id',Auth::id())->get();
+        return $users;
+    }
     //Tools Part
     public static function convertRoleNameFormEnToFa($roleName){
         switch($roleName){
@@ -78,10 +82,14 @@ class UserAction {
         $user->email = $email;
         if ($request->input('password'))
             $user->password = Hash::make($request->input('password'));
-        $user->status = $request->input('status');
+        if($user->hasRole('admin')){
+            $user->status = $request->input('status');
+        }
         $user->save();
 
-        $user->syncRoles(Role::findById($request->input('role')));
+        if($user->hasRole('admin')){
+            $user->syncRoles(Role::findById($request->input('role')));
+        }
         return $uniqueParameter;
     }
     public static function login($request)

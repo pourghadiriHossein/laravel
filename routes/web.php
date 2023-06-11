@@ -9,8 +9,8 @@ route::get('', [PublicController::class, 'index']);
 
 Route::get('cart',[PublicController::class, 'cart'])->name('cart');
 
-Route::get('checkout',[PublicController::class, 'checkout'])->name('checkout');
-Route::post('checkout',[PublicController::class, 'postCheckout'])->name('postCheckout');
+Route::get('checkout',[PublicController::class, 'checkout'])->name('checkout')->middleware('auth');
+Route::post('checkout',[PublicController::class, 'postCheckout'])->name('postCheckout')->middleware('auth');
 
 Route::get('contact',[PublicController::class, 'contact'])->name('contact');
 
@@ -18,22 +18,22 @@ Route::get('faq',[PublicController::class, 'faq'])->name('faq');
 
 Route::get('home',[PublicController::class, 'home'])->name('home');
 
-Route::get('login',[PublicController::class, 'login'])->name('login');
-Route::post('login',[PublicController::class, 'postLogin'])->name('postLogin');
-Route::get('logout',[PublicController::class, 'logout'])->name('logout');
+Route::get('login',[PublicController::class, 'login'])->name('login')->middleware('after.login');
+Route::post('login',[PublicController::class, 'postLogin'])->name('postLogin')->middleware('after.login');
+Route::get('logout',[PublicController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('product',[PublicController::class, 'product'])->name('product');
 Route::get('product/category/{category_id}',[PublicController::class, 'filterProductByCategory'])->name('filterProductByCategory');
 Route::get('product/tag/{tag_id}',[PublicController::class, 'filterProductByTag'])->name('filterProductByTag');
 
-Route::get('register',[PublicController::class, 'register'])->name('register');
-Route::post('register',[PublicController::class, 'postRegister'])->name('postRegister');
+Route::get('register',[PublicController::class, 'register'])->name('register')->middleware('after.login');
+Route::post('register',[PublicController::class, 'postRegister'])->name('postRegister')->middleware('after.login');
 
 Route::get('singleProduct/{product_id}',[PublicController::class, 'singleProduct'])->name('singleProduct');
 
 Route::get('tac',[PublicController::class, 'tac'])->name('tac');
 
-Route::post('add-comment/{product}',[PublicController::class, 'postNewComment'])->name('postNewComment');
+Route::post('add-comment/{product}',[PublicController::class, 'postNewComment'])->name('postNewComment')->middleware('auth');
 
 Route::get('/session/{product_id}/{quantity}/{session_task}',[Controller::class,'session'])->name('session');
 
@@ -41,7 +41,7 @@ Route::get('gateway/{order_id}',[PublicController::class,'sendForPay'])->name('s
 Route::post('callback',[PublicController::class,'callback'])->name('callback');
 
 // Private  Route
-Route::prefix('private')->group(function () {
+Route::prefix('private')->middleware('auth')->group(function () {
 
     Route::get('',[PrivateController::class, 'index']);
 //User

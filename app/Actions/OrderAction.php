@@ -16,6 +16,10 @@ class OrderAction {
         $orders = Order::all();
         return $orders;
     }
+    public static function getUserOrders(){
+        $orders = Order::where('user_id',Auth::id())->get();
+        return $orders;
+    }
     //Tools Part
 
     //Edit Part

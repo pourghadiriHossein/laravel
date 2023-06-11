@@ -4,11 +4,21 @@ namespace App\Actions;
 
 use App\Models\Order;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionAction {
 
     public static function getAllTransaction(){
         $transactions = Transaction::all();
+        return $transactions;
+    }
+    public static function getUserTransaction(){
+        $orders = OrderAction::getUserOrders();
+        $order_IDs = [];
+        foreach($orders as $order){
+            $order_IDs[] = $order->id;
+        }
+        $transactions = Transaction::whereIn('order_id',$order_IDs)->get();
         return $transactions;
     }
     public static function newTransaction($newOrder_id, $newOrder_pay_price)

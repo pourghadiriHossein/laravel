@@ -15,6 +15,10 @@ class CommentAction {
         $comment = Comment::find($comment_id);
         return $comment;
     }
+    public static function getUserComments(){
+        $comments = Comment::where('user_id', Auth::id())->get();
+        return $comments;
+    }
     //Tools Part
     public static function checkState(Comment $comment)
     {

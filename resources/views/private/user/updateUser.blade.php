@@ -41,7 +41,7 @@
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-
+                                    @if(Auth::user()->hasRole('admin'))
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">وضعیت کاربر</label>
                                         <div class="col-lg-10">
@@ -62,6 +62,8 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @endif
+
                                 </fieldset>
                                 <input type="submit" class="finish btn btn-danger" value="تایید"/>
                             </form>

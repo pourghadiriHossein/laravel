@@ -56,7 +56,9 @@
                                 <th style="text-align: right">نام محصول</th>
                                 <th style="text-align: right">نظر کاربر</th>
                                 <th style="text-align: right">وضعیت</th>
+                                @if(Auth::user()->hasRole('admin'))
                                 <th style="text-align: right">امکانات</th>
+                                @endif
                             </tr>
                             </thead>
                             <tfoot style="direction: rtl;">
@@ -66,7 +68,9 @@
                                 <th style="text-align: right">نام محصول</th>
                                 <th style="text-align: right">نظر کاربر</th>
                                 <th style="text-align: right">وضعیت</th>
+                                @if(Auth::user()->hasRole('admin'))
                                 <th style="text-align: right">امکانات</th>
+                                @endif
                             </tr>
                             </tfoot>
                             <tbody>
@@ -88,7 +92,9 @@
                                         <p class="label label-success">مشاهده شده</p>
                                         @endif
                                     </td>
+                                    @if(Auth::user()->hasRole('admin'))
                                     <td><a class="label label-warning" href="{{ route('updateComment',$comment) }}">ویرایش</a></td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

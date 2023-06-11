@@ -15,12 +15,22 @@ class AddressAction {
         $addresses = Address::where('user_id',$user_id)->where('status',1)->get();
         return $addresses;
     }
+    public static function getAllUserAddresses($user_id){
+        $addresses = Address::where('user_id',$user_id)->get();
+        return $addresses;
+    }
     //Tools Part
 
     //Edit Part
     public static function deleteAddress(Address $Address)
     {
-        $Address->delete();
+        if(Auth::user()->hasRole('admin')){
+            $Address->delete();
+        }else{
+            if($Address->user_id == Auth::id())
+                $Address->delete();
+        }
+
         return back();
     }
     public static function addAddress($request)
