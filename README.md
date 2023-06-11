@@ -1,4 +1,4 @@
-# Create Public Side In Laravel
+# Create Private Side In Laravel
 
 ## Create private-side-files and private folder
 - ### In public folder
