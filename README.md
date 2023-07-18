@@ -166,6 +166,28 @@ public function messages()
     ];
 }
 ```
+## Create checkPhone Function in UserAction
+```bash
+private static function checkPhone($phone)
+{
+    $check = User::where('phone',$phone)->first();
+    if ($check)
+        return true;
+    else
+        return false;
+}
+```
+## Create checkEmail Function in UserAction
+```bash
+private static function checkEmail($email)
+{
+    $check = User::where('email',$email)->first();
+    if ($check)
+        return true;
+    else
+        return false;
+}
+```
 
 ## Create addUser Function in UserAction
 ```bash
