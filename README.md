@@ -60,7 +60,7 @@ public function visitTag() {
 </tr>
 @endforeach
 ```
-## Update form tag in addCategory.blade.php File
+## Update form tag in addTag.blade.php File
 ```bash
 <form class="form-horizontal" action="{{ route('postAddTag') }}" method="post" enctype="multipart/form-data">
     @csrf
@@ -85,7 +85,7 @@ public function visitTag() {
     <input type="submit" class="finish btn btn-danger" value="تایید"/>
 </form>
 ```
-## in CategoryAction, Write addTag static function
+## in TagAction, Write addTag static function
 ```bash
 public static function addTag($request){
     Tag::create($request->all());
@@ -152,7 +152,7 @@ public function updateTag(Tag $tag) {
     <input type="submit" class="finish btn btn-danger" value="تایید"/>
 </form>
 ```
-## in CategoryAction, Write updateTag static function
+## in TagAction, Write updateTag static function
 ```bash
 public static function updateTag($request, $tag_id){
     $updateTag = self::getTag($tag_id);
